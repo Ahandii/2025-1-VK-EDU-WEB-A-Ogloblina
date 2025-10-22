@@ -1,0 +1,24 @@
+.file-re-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#upload-avatar {
+    margin-bottom: auto;
+}
+
+.user-avatar {
+    width: 120px;
+    border: solid 1px #ccc;
+}
+
+.re-upload {
+    margin-top: 8px;
+}
+
+.re-upload {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}

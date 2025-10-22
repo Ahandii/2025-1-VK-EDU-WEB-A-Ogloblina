@@ -1,0 +1,91 @@
+.answer-item {
+    padding: 8px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    display: flex;
+    gap: 16px;
+}
+
+.question__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.answer__likes-and-avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 8px;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 16px; 
+    /*80 + 12 - 60 - 16 = 16*/
+}
+
+.answer__likes-and-avatar .avatar {
+    width: 60px;
+}
+
+.answer__likes-and-avatar .likes {
+    width: 40px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    padding: 2px;
+}
+ 
+.root__main {
+    gap: 12px;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.answer__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.description {
+    overflow: hidden; 
+}
+ 
+.answer__footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.answer_checkbox__footer {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-right: auto;
+    user-select: none;
+    cursor: pointer;
+}
+
+.question__likes-and-avatar {
+    padding: 8px 6px;
+    gap: 6px;
+    justify-content: space-between;
+}
+
+.question__likes-and-avatar > .avatar {
+    width: 80px;
+}
+
+.user-answer {
+    width: 100%;
+}
+
+
+textarea {
+  min-height: 100px;
+}
+
