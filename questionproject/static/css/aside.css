@@ -1,0 +1,34 @@
+
+aside {
+    margin-top: 16px;
+    max-width: 250px;
+}
+
+aside #best_members>.best-members-links {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+ 
+aside #popular_tags>.popular-tags-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+ 
+aside #popular_tags>.popular-tags-links a {
+    text-decoration: none;
+}
+ 
+#firefox {
+    color: orange;
+}
+
+ul.best-members-links {
+    list-style: none;
+    padding: 0;
+}
+ 
+aside .best_members a:hover {
+    color: blue
+}

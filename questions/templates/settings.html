@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load static index %}
+
+{% block page_links %}
+    <link rel="stylesheet" href="../static/css/ask.css">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="../static/css/signup.css">
+    <link rel="stylesheet" href="../static/css/settings.css">
+{% endblock %}
+ 
+<main>
+    <div class="content-with-form-wrapper">  
+        <h2>Registration</h2>
+        <form action="#" method="post" enctype="multipart/form-data">
+            <div class="form-main-content">
+                <label class="enter-label">
+                    <span class="input-header">Login</span>
+                    <div class="input-wrapper">
+                        <input type="text" name="login" value="dr_pepper">
+                    </div>
+                </label>
+                <label class="enter-label">
+                    <span class="input-header">Email</span>
+                    <div class="input-wrapper">
+                        <input type="email" name="email" value="dr.pepper@mail.ru">
+                    </div>
+                </label>
+                <label class="enter-label">
+                    <span class="input-header">NickName</span>
+                    <div class="input-wrapper">
+                        <input type="text" name="nickname" value="Dr.Pepper">
+                    </div>
+                </label>
+    
+                <div class="re-upload">
+                    <span class="input-header">Upload avatar</span>
+
+                    <div class="enter-label">
+                        <div class="file-re-upload">
+                            <img src="../static/img/avatar.png" alt="avatar" class="user-avatar">
+                            <label class="file-upload">
+                                <input type="file" id="avatar-input" name="avatar">
+                                <label for="avatar-input" class="file-upload-button">Choose file</label>
+                                <span class="file-name">No file chosen</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <input type="submit" value="Save" >
+        </form>
+    </div>  
+</main>
+{% include "aside.html"%}
+</div>

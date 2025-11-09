@@ -1,0 +1,25 @@
+{% load static %}
+
+<div class="question-item" data-id="{{ instance.id }}">
+    <div class="question__likes-and-avatar">
+        <img src="{% static 'questions/img/avatar.png' %}" alt="avatar" class="avatar">
+        <div class="likes">
+            <input style="font-size: 14px;" type="number">
+        </div>
+    </div>
+
+    <div class="question__content">
+        <a href="{% url "questions:question_detail" instance.id %}" class="question-title">{{ question.text }}</a> 
+        <div class="description">{{ instance.description|truncate_str:50 }} </div>
+        <div class="question__footer">
+            <a href="#">answer (3)</a>
+            <span>
+                Tags
+                <a href="#">black-jack</a>
+                <a href="#">bender</a>
+            </span>
+        </div>
+    </div>      
+</div>
+            
+            

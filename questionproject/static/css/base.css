@@ -1,0 +1,237 @@
+.page-content {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+button {
+    transition: transorm 0.3s ease-in-out;
+}
+
+
+button:active {
+    transform: scale(0.95);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 4px;
+    gap: 16px;
+}
+ 
+.search-item>button.ask-button {
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #4CAF50;
+    border: none;
+    width: 48px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.profile-wrapper {
+    min-width: 180px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: auto;
+}
+
+
+input {
+    border: none;
+    font-size: 16px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700px;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 700px;
+}
+h3 {
+    font-size: 24px;
+    font-weight: 700px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.search-item {
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+header a:hover
+{
+    color: blue;
+}
+
+main a:hover {
+    color: #ff0008;
+}
+
+aside .best_members a:hover {
+    color: blue
+}
+
+header a {
+    white-space: nowrap;
+}
+
+
+.search-line {
+    width: 100%;
+    max-width: 550px;
+    height: 100%;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search {
+    padding-left: 35px;
+}
+
+.search-line .loupe {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.page-content__root {
+    display: flex;
+    gap: 48px;
+    flex-direction: row;
+    width: 100%;
+}
+ 
+main {
+    flex: 1;
+    min-width: 300px;
+}
+
+section.page-header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.root__questions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.root__main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+section.content {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+}
+ 
+.question-item {
+    padding: 8px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    display: flex;
+    gap: 16px;
+}
+
+.question__likes-and-avatar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question__likes-and-avatar .likes {
+    width: 40px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    padding: 2px;
+}
+ 
+
+#firefox {
+    color: orange;
+}
+ 
+.question-title {
+    font-size: 20px;
+    transition: color 0.2s ease-out;
+}
+ 
+.question-title:hover {
+    color: red;
+}
+ 
+
+.question__content > .description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+ 
+.question__footer {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+ 
+ul.best-members__links {
+    list-style: none;
+    padding: 0;
+}
+ 
+section.paginator {
+    margin-top: 12px;
+}
+ 
+section.paginator > * {
+    background-color: white;
+ 
+    transition: background-color 1s ease-out;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+    cursor: pointer;
+}
+ 
+section.paginator > *:hover {
+    background-color: #4878d9a5;
+}
+ 
+section.paginator > .no-click {
+    background-color: inherit;
+    cursor: default;
+}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load static index %}
+
+{% block page_links %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block title %}
+    Вопрос 1
+{% endblock %}
+
+{% block content %}
+<main class="root__main">
+    <section class="root__header">
+        <h2>New questions</h2>
+        <a href="#" class="hot-questions">Hot questions</a>
+    </section>
+            
+    <section class="root__questions">
+        {% for question in object_list %}
+            {% include 'question_card.html' with instance=question %}
+        {% endfor %}               
+
+    </section>
+
+    {% comment %} paginator to do {% endcomment %}
+    <section class="paginator">
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="no-click">...</button>
+        <button>53</button>
+    </section>
+</main>
+{% include 'aside.html' %}
+
+{% endblock content %}
+

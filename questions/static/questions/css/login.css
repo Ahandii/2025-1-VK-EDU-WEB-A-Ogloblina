@@ -1,0 +1,15 @@
+.enter-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+form .input-header {
+    min-width: 80px;
+}
+
+form .input-wrapper {
+    min-width: 100px;
+    max-width: 300px;
+}
