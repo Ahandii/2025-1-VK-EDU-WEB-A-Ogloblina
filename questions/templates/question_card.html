@@ -12,14 +12,14 @@
         <a href="{% url "questions:question_detail" instance.id %}" class="question-title">{{ question.text }}</a> 
         <div class="description">{{ instance.description|truncate_str:50 }} </div>
         <div class="question__footer">
-            <a href="#">answer (3)</a>
+            <a href="#">answer {{ instance.answer }}</a>
             <span>
                 Tags
-                <a href="#">black-jack</a>
-                <a href="#">bender</a>
+                {% for tag in instance.tags %}
+                    <a href="{% url "questions:questions_tag" tag %}">{{ tag }}</a>
+                {% endfor %}
             </span>
         </div>
     </div>      
-</div>
-            
+</div>    
             

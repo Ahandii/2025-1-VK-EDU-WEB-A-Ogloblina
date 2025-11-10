@@ -196,25 +196,3 @@ section.content {
 }
  
 
-section.paginator {
-    margin-top: 12px;
-}
- 
-section.paginator > * {
-    background-color: white;
- 
-    transition: background-color 1s ease-out;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 4px;
-    cursor: pointer;
-}
- 
-section.paginator > *:hover {
-    background-color: #4878d9a5;
-}
- 
-section.paginator > .no-click {
-    background-color: inherit;
-    cursor: default;
-}

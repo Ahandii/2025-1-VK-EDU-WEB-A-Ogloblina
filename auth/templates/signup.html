@@ -3,9 +3,10 @@
 {% load static index %}
 
 {% block page_links %}
-    <link rel="stylesheet" href="../static/css/ask.css">
-    <link rel="stylesheet" href="../static/css/login.css">
-    <link rel="stylesheet" href="../static/css/signup.css">
+    <link rel="stylesheet" href="{% static "questions/css/index.css" %}">
+    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
+    <link rel="stylesheet" href="{% static "auth/css/login.css" %}">
+    <link rel="stylesheet" href="{% static "auth/css/signup.css" %}">
 {% endblock %}
 
 {% block content %}
@@ -61,7 +62,9 @@
         </form>
     </div>  
 </main>
-{% include "aside.html %}
+{% include "aside.html"%}
+
 {% endblock  %}
+
 
     

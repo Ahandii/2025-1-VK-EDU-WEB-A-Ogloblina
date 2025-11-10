@@ -48,6 +48,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, "questions", 'templates'),
+            os.path.join(BASE_DIR, "auth", 'templates'),
             os.path.join(BASE_DIR, "questionproject", 'templates'),
         ],
         'APP_DIRS': True,
@@ -76,7 +77,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -114,6 +114,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "questionproject/static/"),
     os.path.join(BASE_DIR, "questions/static/"),
+    os.path.join(BASE_DIR, "auth/static"),
     'static/',
 ]
 

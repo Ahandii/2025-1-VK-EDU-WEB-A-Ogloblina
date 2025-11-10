@@ -1,169 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
- 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+{% extends "base.html" %}
+{% load static %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/index.css">
-    <link rel="stylesheet" href="../static/css/ask.css">
-    <link rel="stylesheet" href="../static/css/question.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-    </style>
-</head>
+{% block page_links %}
+    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
+    <link rel="stylesheet" href="{% static "questions/css/question.css" %}">
+{% endblock %}
 
+{% block title %}
+    Вопрос 1
+{% endblock %}
 
-<body>
-    <div class="page_content">
-        <header>
-            <h1>AskPupkin</h1>
-            <div class="search-item">
-                <div class="search-line">
-                    <svg class="loupe" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
-                    <path fill="#5e5e5e" d="M 13 3 C 7.4886661 3 3 7.4886661 3 13 C 3 18.511334 7.4886661 23 13 23 C 15.396652 23 17.59741 22.148942 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148942 17.59741 23 15.396652 23 13 C 23 7.4886661 18.511334 3 13 3 z M 13 5 C 17.430666 5 21 8.5693339 21 13 C 21 17.430666 17.430666 21 13 21 C 8.5693339 21 5 17.430666 5 13 C 5 8.5693339 8.5693339 5 13 5 z"></path>
-                    </svg>                
-                    <input type="text" class="search" placeholder="Search">
-                </div>
-                <button class="ask-button">Ask</button>
-            </div>
-            <div class="profile-wrapper">
+{% block content %}
+<main class="root__main">           
+    <section class="one_question">
+        <div class="question-item">
+            <div class="question__likes-and-avatar">
                 <img src="../static/img/avatar.png" alt="avatar" class="avatar">
-
-                <div>
-                    <div class="profile-name">Dr. Pepper</div>
-                    <div class="button-wrapper">
-                        <a href="#HERE">settings</a>
-                        <a href="#">log out</a>
-                    </div>
+                <div class="likes">
+                    <input style="font-size: 14px;" type="number">
                 </div>
             </div>
-        </header>
 
+            <div class="question__content">
+                <div>
+                    <a href="#content" class="question-title">How to build a moon park?</a>
+                    <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
+                    minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
+                    explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
+                </div>
+                <div class="question__footer">
+                    <span>
+                        Tags
+                        <a href="#">black-jack</a>
+                        <a href="#">bender</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="answers">
+        <div class="answer-item">
+            <div class="answer__likes-and-avatar">
+                <img src="../static/img/avatar.png" alt="avatar" class="avatar">
+                <div class="likes">
+                    <input style="font-size: 14px;" type="number">
+                </div>
+            </div>
 
-        <div class="page-content__root">
-            <main class="root__main">           
-                <section class="one_question">
-                    <div class="question-item">
-                        <div class="question__likes-and-avatar">
-                            <img src="../static/img/avatar.png" alt="avatar" class="avatar">
-                            <div class="likes">
-                                <input style="font-size: 14px;" type="number">
-                            </div>
-                        </div>
+            <div class="answer__content">
+                <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
+                    minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
+                    explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
 
-                        <div class="question__content">
-                            <div>
-                                <a href="#content" class="question-title">How to build a moon park?</a>
-                                <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                                minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                                explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
-                            </div>
-                            <div class="question__footer">
-                                <span>
-                                    Tags
-                                    <a href="#">black-jack</a>
-                                    <a href="#">bender</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="answers">
-                    <div class="answer-item">
-                        <div class="answer__likes-and-avatar">
-                            <img src="../static/img/avatar.png" alt="avatar" class="avatar">
-                            <div class="likes">
-                                <input style="font-size: 14px;" type="number">
-                            </div>
-                        </div>
+                <div class="answer__footer">
+                    <label class="answer_checkbox__footer">
+                        <input type="checkbox">
+                        <span>Correct!</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="answer-item">
+            <div class="answer__likes-and-avatar">
+                <img src="../static/img/avatar.png" alt="avatar" class="avatar">
+                <div class="likes">
+                    <input style="font-size: 14px;" type="number">
+                </div>
+            </div>
 
-                        <div class="answer__content">
-                            <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                                minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                                explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
+            <div class="answer__content">
+                <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
+                    minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
+                    explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
 
-                            <div class="answer__footer">
-                                <label class="answer_checkbox__footer">
-                                    <input type="checkbox">
-                                    <span>Correct!</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="answer-item">
-                        <div class="answer__likes-and-avatar">
-                            <img src="../static/img/avatar.png" alt="avatar" class="avatar">
-                            <div class="likes">
-                                <input style="font-size: 14px;" type="number">
-                            </div>
-                        </div>
-
-                        <div class="answer__content">
-                            <div class="description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse possimus
-                                minima officiis iure? Commodi illo quibusdam voluptates accusantium id deleniti natus nobis
-                                explicabo tempore? Porro, assumenda. Rem cumque dignissimos sint.</div>
-
-                            <div class="answer__footer">
-                                <label class="answer_checkbox__footer">
-                                    <input type="checkbox">
-                                    <span>Correct!</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-                <section class="user-answer">
-                    <form action="#" method="post">
-                        <label>
-                            <div class="input-wrapper">
-                                <textarea name="text" placeholder="Enter your answer here"></textarea>
-                            </div>
-                        </label>
-                        <input type="submit" value="Answer" name="tags">
-                    </form>
-                </section>
-            </main>
-
-            <aside>
-                <section id="popular_tags">
-                    <h2>Popular Tags</h2>
-                    <div class="popular-tags__links">
-                        <a href="#">perl</a>
-                        <a href="#" style="color: red">python</a>
-                        <a href="#">technopark</a>
-                        <a href="#" style="color: red">mysql</a>
-                        <a href="#">technopark</a>
-                        <a href="#" id="firefox">firefox</a>
-                    </div>
-                </section>
-
-                <section id="best_members">
-                    <h2>Best Members</h2>
-                    <ul class="best-members__links">
-                        <li>
-                            <a href="#">mr freeman</a>
-                        </li>
-
-                        <li>
-                            <a href="#">dr house</a>
-                        </li>
-
-                        <li>
-                            <a href="#">bender</a>
-                        </li>
-                    </ul>
-                </section>
-            </aside>
+                <div class="answer__footer">
+                    <label class="answer_checkbox__footer">
+                        <input type="checkbox">
+                        <span>Correct!</span>
+                    </label>
+                </div>
+            </div>
         </div>
 
-    </div>
+    </section>
+    <section class="user-answer">
+        <form action="#" method="post">
+            <label>
+                <div class="input-wrapper">
+                    <textarea name="text" placeholder="Enter your answer here"></textarea>
+                </div>
+            </label>
+            <input type="submit" value="Answer" name="tags">
+        </form>
+    </section>
+</main>
 
-</body>
- 
-</html>
+{% include "aside.html" %}  
+
+{% endblock %}
+
+
+

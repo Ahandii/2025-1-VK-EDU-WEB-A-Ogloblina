@@ -39,17 +39,23 @@
                 </div>
                 <button class="ask-button">Ask</button>
             </div>
-            <div class="profile-wrapper">
+            {% if user.is_authenticated %}
+                <div class="profile-wrapper">
                 {% comment %} TODO поменять url на аватар {% endcomment %}
                 <img src={% static 'questions/img/avatar.png'%} alt="avatar" class="avatar">
                 <div>
                     <div class="profile-name">Dr. Pepper</div>
                     <div class="button-wrapper">
-                        <a href="#HERE">settings</a>
-                        <a href="#">log out</a>
+                        <a href={% url "auth:settings" %}>settings</a>
+                        <a href={% url "auth:settings" %}>log out</a>
                     </div>
                 </div>
             </div>
+            {% else %}
+                <a href={% url "auth:login" %}>log in</a>
+                <a href={% url "auth:signup" %}>register</a>
+            {% endif %}
+            
         </header>
 
         <div class="page-content__root">

@@ -3,11 +3,12 @@
 {% load static index %}
 
 {% block page_links %}
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'questions/css/index.css' %}">
+    <link rel="stylesheet" href="{% static '/css/paginator.css' %}">
 {% endblock %}
 
 {% block title %}
-    Вопрос 1
+    Вопросы
 {% endblock %}
 
 {% block content %}
@@ -24,14 +25,7 @@
 
     </section>
 
-    {% comment %} paginator to do {% endcomment %}
-    <section class="paginator">
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button class="no-click">...</button>
-        <button>53</button>
-    </section>
+    {% include 'paginator.html' with obect_list=object_list page_obj=page_obj %}
 </main>
 {% include 'aside.html' %}
 

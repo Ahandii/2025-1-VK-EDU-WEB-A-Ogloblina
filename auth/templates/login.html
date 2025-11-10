@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block page_links %}
-    <link rel="stylesheet" href="../static/css/ask.css">
-    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="{% static "questions/css/index.css" %}">
+    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
+    <link rel="stylesheet" href="{% static "auth/css/login.css" %}">
 {% endblock%}
 
+{% block content %}
 <main>
     <div class="content-with-form-wrapper">  
         <h2>Log in</h2>
@@ -28,9 +32,11 @@
             </div>
             <input type="submit" value="Log in">
         </form>
-        <a href="#">Create new account</a>
+        <a href={% url "auth:signup" %}>Create new account</a>
     </div>  
 </main>
 {% include 'aside.html' %}
+{% endblock content %}
+
 
 
