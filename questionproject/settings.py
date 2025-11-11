@@ -25,10 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django_rename_app"
 ]
 
 INSTALLED_APPS += [
-    'questions'
+    'questions',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -48,7 +50,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, "questions", 'templates'),
-            os.path.join(BASE_DIR, "auth", 'templates'),
+            os.path.join(BASE_DIR, "core", 'templates'),
             os.path.join(BASE_DIR, "questionproject", 'templates'),
         ],
         'APP_DIRS': True,
@@ -73,8 +75,12 @@ WSGI_APPLICATION = 'questionproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': config.get('database', 'ENGINE', fallback='django.db.backends.postgresql'),
+        'NAME': config.get('database', 'NAME'),
+        'USER': config.get('database', 'USER'),
+        'PASSWORD': config.get('database', 'PASSWORD'),
+        'HOST': config.get('database', 'HOST', fallback='127.0.0.1'),
+        'PORT': config.getint('database', 'PORT', fallback=5432),
     }
 }
 
@@ -114,7 +120,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "questionproject/static/"),
     os.path.join(BASE_DIR, "questions/static/"),
-    os.path.join(BASE_DIR, "auth/static"),
+    os.path.join(BASE_DIR, "core/static"),
     'static/',
 ]
 

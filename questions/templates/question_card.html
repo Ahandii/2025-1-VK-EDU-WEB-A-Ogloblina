@@ -9,14 +9,14 @@
     </div>
 
     <div class="question__content">
-        <a href="{% url "questions:question_detail" instance.id %}" class="question-title">{{ question.text }}</a> 
-        <div class="description">{{ instance.description|truncate_str:50 }} </div>
+        <a href="{% url "questions:question_detail" instance.id %}" class="question-title">{{ instance.title }}</a> 
+        <div class="description">{{ instance.content|truncate_str:50 }} </div>
         <div class="question__footer">
-            <a href="#">answer {{ instance.answer }}</a>
+            <a href="{% url "questions:question_detail" instance.id %}">answers ({{ instance.answers_cnt }})</a>
             <span>
                 Tags
-                {% for tag in instance.tags %}
-                    <a href="{% url "questions:questions_tag" tag %}">{{ tag }}</a>
+                {% for tag in instance.tags.all %}
+                    <a href="{% url "questions:questions_tag" tag.name %}">{{ tag.name }}</a>
                 {% endfor %}
             </span>
         </div>

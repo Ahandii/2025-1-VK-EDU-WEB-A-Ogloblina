@@ -1,0 +1,20 @@
+{% load static %}
+
+<div class="answer-item">
+    <div class="answer__likes-and-avatar">
+        <img src="{% static 'questions/img/avatar.png' %}" alt="avatar" class="avatar">
+        <div class="likes">
+            <input style="font-size: 14px;" type="number">
+        </div>
+    </div>
+    <div class="answer__content">
+        <div class="description"> {{ instance.content }} </div>
+
+        <div class="answer__footer">
+            <label class="answer_checkbox__footer">
+                <input type="checkbox">
+                <span>Correct!</span>
+            </label>
+        </div>
+    </div>
+</div>

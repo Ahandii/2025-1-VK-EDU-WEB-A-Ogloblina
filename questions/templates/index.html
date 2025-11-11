@@ -7,22 +7,31 @@
     <link rel="stylesheet" href="{% static '/css/paginator.css' %}">
 {% endblock %}
 
+
 {% block title %}
+{% if tag %}
+    Вопросы по тегу
+{% else %}
     Вопросы
+{% endif %}
 {% endblock %}
+
 
 {% block content %}
 <main class="root__main">
     <section class="root__header">
-        <h2>New questions</h2>
-        <a href="#" class="hot-questions">Hot questions</a>
+        {% if tag %}
+            <h2>Tag: {{ tag }} </h2>
+        {% else %}
+            <h2>New questions</h2>
+            <a href="{% url "questions:questions_hot" %}" class="hot-questions">Hot questions</a>
+        {% endif %}
     </section>
-            
+    
     <section class="root__questions">
         {% for question in object_list %}
             {% include 'question_card.html' with instance=question %}
         {% endfor %}               
-
     </section>
 
     {% include 'paginator.html' with obect_list=object_list page_obj=page_obj %}

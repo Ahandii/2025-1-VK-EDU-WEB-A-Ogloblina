@@ -1,0 +1,7 @@
+.answer-item {
+    padding: 8px;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    display: flex;
+    gap: 16px;
+}

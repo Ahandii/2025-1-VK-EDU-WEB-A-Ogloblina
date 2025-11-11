@@ -46,14 +46,14 @@
                 <div>
                     <div class="profile-name">Dr. Pepper</div>
                     <div class="button-wrapper">
-                        <a href={% url "auth:settings" %}>settings</a>
-                        <a href={% url "auth:settings" %}>log out</a>
+                        <a href={% url "core:settings" %}>settings</a>
+                        <a href={% url "core:settings" %}>log out</a>
                     </div>
                 </div>
             </div>
             {% else %}
-                <a href={% url "auth:login" %}>log in</a>
-                <a href={% url "auth:signup" %}>register</a>
+                <a href={% url "core:login" %}>log in</a>
+                <a href={% url "core:signup" %}>register</a>
             {% endif %}
             
         </header>
