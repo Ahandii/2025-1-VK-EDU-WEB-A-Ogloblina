@@ -9,7 +9,6 @@ button {
     transition: transorm 0.3s ease-in-out;
 }
 
-
 button:active {
     transform: scale(0.95);
 }
@@ -87,9 +86,6 @@ main a:hover {
     color: #ff0008;
 }
 
-aside .best_members a:hover {
-    color: blue
-}
 
 header a {
     white-space: nowrap;
@@ -181,10 +177,7 @@ section.content {
 }
  
 
-#firefox {
-    color: orange;
-}
- 
+
 .question-title {
     font-size: 20px;
     transition: color 0.2s ease-out;
@@ -206,11 +199,6 @@ section.content {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-}
- 
-ul.best-members__links {
-    list-style: none;
-    padding: 0;
 }
  
 section.paginator {

@@ -1,8 +1,6 @@
-
-
 .paginator a {
     display: inline-block;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     text-decoration: none;
@@ -10,6 +8,7 @@
     background: #f8f9fa;
     transition: all 0.3s ease;
     user-select: none;
+    font-size: 16px;
 }
 
 .paginator a:hover {

@@ -138,7 +138,7 @@ section.page-header {
 .root__main {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
 }
  
 section.content {

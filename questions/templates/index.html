@@ -5,6 +5,7 @@
 {% block page_links %}
     <link rel="stylesheet" href="{% static 'questions/css/index.css' %}">
     <link rel="stylesheet" href="{% static '/css/paginator.css' %}">
+    <link rel="stylesheet" href="{% static '/css/aside.css' %}">
 {% endblock %}
 
 
@@ -29,14 +30,14 @@
     </section>
     
     <section class="root__questions">
-        {% for question in object_list %}
+        {% for question in page_obj.object_list %}
             {% include 'question_card.html' with instance=question %}
         {% endfor %}               
     </section>
 
-    {% include 'paginator.html' with obect_list=object_list page_obj=page_obj %}
+    {% include 'paginator.html' with page_obj=page_obj %}
 </main>
-{% include 'aside.html' %}
+{% include 'aside.html' with popular_tags=popular_tags best_members=best_members %}
 
 {% endblock content %}
 
