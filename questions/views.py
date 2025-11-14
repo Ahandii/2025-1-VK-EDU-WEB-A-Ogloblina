@@ -9,7 +9,16 @@ def paginate(objects_list, request, per_page=10):
     page_obj = paginator.get_page(page_number)
     return page_obj
 
-class IndexView(TemplateView):
+class BaseView(TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        popular_tags = Tag.objects.popular_tags()
+        best_members = User.objects.all()[:5] #заглушка на время
+        context["popular_tags"] = popular_tags
+        context["best_members"] = best_members
+        return context
+
+class IndexView(BaseView):
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
@@ -17,13 +26,9 @@ class IndexView(TemplateView):
         questions = Question.objects.active()
         page_obj = paginate(questions, self.request)
         context["page_obj"] = page_obj
-        popular_tags = Tag.objects.popular_tags()
-        best_members = User.objects.all()[:5] #заглушка на время
-        context["popular_tags"] = popular_tags
-        context["best_members"] = best_members
         return context
 
-class QuestionsHotView(TemplateView):
+class QuestionsHotView(BaseView):
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
@@ -31,13 +36,9 @@ class QuestionsHotView(TemplateView):
         questions = Question.objects.hot()
         page_obj = paginate(questions, self.request)
         context["page_obj"] = page_obj
-        popular_tags = Tag.objects.popular_tags()
-        best_members = User.objects.all()[:5] #заглушка на время
-        context["popular_tags"] = popular_tags
-        context["best_members"] = best_members
         return context
 
-class DetailView(TemplateView):
+class DetailView(BaseView):
     template_name = "question.html"
 
     def get_context_data(self, **kwargs):
@@ -50,7 +51,7 @@ class DetailView(TemplateView):
         except Question.DoesNotExist:
             raise Http404("Question does not exist")
         
-class QuestionsTagView(TemplateView):
+class QuestionsTagView(BaseView):
     template_name = "index.html"
     def get_context_data(self, **kwargs):
         tag_name = self.kwargs.get("pk")
@@ -61,13 +62,9 @@ class QuestionsTagView(TemplateView):
         page_obj = paginate(questions, self.request)
         context["page_obj"] = page_obj
         context["tag"] = tag_name
-        popular_tags = Tag.objects.popular_tags()
-        best_members = User.objects.all()[:5] #заглушка на время
-        context["popular_tags"] = popular_tags
-        context["best_members"] = best_members
         return context
 
-class QuestionAskView(TemplateView):
+class QuestionAskView(BaseView):
     template_name = "ask.html"
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs)
