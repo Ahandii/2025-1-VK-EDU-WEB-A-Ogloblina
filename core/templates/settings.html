@@ -1,20 +1,17 @@
 {% extends "base.html" %}
-
-{% load static index %}
+{% load static %}
 
 {% block page_links %}
-    <link rel="stylesheet" href="{% static "questions/css/index.css" %}">
-    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
-    <link rel="stylesheet" href="{% static "core/css/login.css" %}">
-    <link rel="stylesheet" href="{% static "core/css/signup.css" %}">
-    <link rel="stylesheet" href="{% static "core/css/settings.css" %}">
-    <link rel="stylesheet" href="{% static '/css/aside.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base_core.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/file_upload.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/settings.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aside.css' %}">
 {% endblock %}
 
 {% block content %}
 <main>
     <div class="content-with-form-wrapper">  
-        <h2>Registration</h2>
+        <h2>Settings</h2>
         <form action="#" method="post" enctype="multipart/form-data">
             <div class="form-main-content">
                 <label class="enter-label">
@@ -37,24 +34,22 @@
                 </label>
     
                 <div class="re-upload">
-                    <span class="input-header">Upload avatar</span>
-
-                    <div class="enter-label">
-                        <div class="file-re-upload">
-                            <img src="../static/img/avatar.png" alt="avatar" class="user-avatar">
-                            <label class="file-upload">
-                                <input type="file" id="avatar-input" name="avatar">
-                                <label for="avatar-input" class="file-upload-button">Choose file</label>
-                                <span class="file-name">No file chosen</span>
-                            </label>
+                    <span class="input-header">Avatar</span>
+                    <div class="file-re-upload">
+                        <img src="{% static 'questions/img/avatar.png' %}" alt="avatar" class="user-avatar">
+                        <div class="file-upload">
+                            <input type="file" id="avatar-input" name="avatar">
+                            <label for="avatar-input" class="file-upload-button">Choose file</label>
+                            <span class="file-name">No file chosen</span>
                         </div>
                     </div>
-
                 </div>
             </div>
-            <input type="submit" value="Save" >
+            <div class="form-submit-wrapper">
+                <input type="submit" value="Save">
+            </div>
         </form>
     </div>  
 </main>
-{% include "aside.html"%}
+{% include "aside.html" %}
 {% endblock %}

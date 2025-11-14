@@ -12,7 +12,9 @@
         <a href="{% url "questions:question_detail" instance.id %}" class="question-title">{{ instance.title }}</a> 
         <div class="description">{{ instance.content|truncate_str:50 }} </div>
         <div class="question__footer">
-            <a href="{% url "questions:question_detail" instance.id %}">answers ({{ instance.answers_cnt }})</a>
+            {% if not flag %}
+                <a href="{% url "questions:question_detail" instance.id %}">answers ({{ instance.answers_cnt }})</a>
+            {% endif %}
             <span>
                 Tags
                 {% for tag in instance.tags.all %}

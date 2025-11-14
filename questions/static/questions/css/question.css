@@ -5,6 +5,12 @@
     gap: 12px;
 }
 
+.question__likes-and-avatar .avatar {
+    width: 50px;
+    border-radius: 50%;
+}
+
+
 .answer__likes-and-avatar {
     display: flex;
     flex-direction: column;

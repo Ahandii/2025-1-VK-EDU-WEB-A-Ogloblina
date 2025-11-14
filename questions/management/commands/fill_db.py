@@ -47,6 +47,7 @@ def form_answers(questions, users):
                 author=user,
                 content=f"Ответ на вопрос c id {question.id} ({question.title})",
                 likes = randint(0, 100),
+                is_correct = randint(0, 1)
             )
             answers.append(answer)
     return answers

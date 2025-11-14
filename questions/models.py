@@ -31,6 +31,7 @@ class Question(models.Model):
     author = models.ForeignKey(User, verbose_name="Автор вопроса", on_delete=models.SET_NULL, null=True)
 
     likes = models.IntegerField(verbose_name="Количество лайков", default=0)
+    dislikes = models.IntegerField(verbose_name="Количество дизлайков", default=0)
 
     created_at = models.DateTimeField(verbose_name="Время создания вопроса", auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(verbose_name="Время редактирования вопроса", auto_now=True)
@@ -55,6 +56,7 @@ class Answer(models.Model):
     question = models.ForeignKey("questions.Question", verbose_name = "Вопрос", on_delete=models.CASCADE)
 
     likes = models.IntegerField(verbose_name="Количество лайков", default = 0)
+    dislikes = models.IntegerField(verbose_name="Количество дизлайков", default = 0)
 
     created_at = models.DateTimeField(verbose_name="Время создания вопроса", auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(verbose_name="Время редактирования вопроса", auto_now=True)

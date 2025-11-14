@@ -1,5 +1,16 @@
 from django.db import models
-    
+from django.db.models import Count
+from django.contrib.auth.models import User
+
+def get_best_members(limit=5):
+    return User.objects.annotate(
+        answers_count=Count(
+            'answer',
+            filter=models.Q(answer__is_active=True, answer__is_correct=True)
+        )
+    ).filter(answers_count__gt=0).\
+        order_by('-answers_count')[:limit]
+
 class QuestionManager(models.Manager):
     def active(self):
         return self.filter(is_active=1).\
@@ -26,9 +37,7 @@ class AnswerManager(models.Manager):
             only("is_correct", "content", "likes")
 
 class TagManager(models.Manager):
+    def with_questions_count(self):
+        return self.annotate(questions_count=Count('question'))
     def popular_tags(self):
-        return self.all()[:7]
-    # TODO спросить (как эффективно считать и запоминать где-то популярные теги)
-        # return self.objects.\
-        #     annotate(tag_cnt = ).\
-        #     order_by("-tag_cnt").all()[:7]
+        return self.with_questions_count().order_by('-questions_count')[:10]

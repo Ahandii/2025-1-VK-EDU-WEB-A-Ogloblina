@@ -12,7 +12,7 @@
 
         <div class="answer__footer">
             <label class="answer_checkbox__footer">
-                <input type="checkbox">
+                <input type="checkbox"  {% if instance.is_correct %}checked{% endif %}>
                 <span>Correct!</span>
             </label>
         </div>

@@ -2,9 +2,11 @@
 {% load static %}
 
 {% block page_links %}
+    <link rel="stylesheet" href="{% static "questions/css/question_card.css" %}">
     <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
     <link rel="stylesheet" href="{% static "questions/css/question.css" %}">
     <link rel="stylesheet" href="{% static "questions/css/answer_card.css" %}">
+    <link rel="stylesheet" href="{% static "css/aside.css" %}">
 {% endblock %}
 
 {% block title %}
@@ -13,7 +15,7 @@
 
 {% block content %}
 <main class="root__main">           
-    {% include "question_card.html" with instance=question %}
+    {% include "question_card.html" with instance=question flag=1%}
     <section class="answers">
         {% for answer in answers %}
             {% include "answer_card.html" with instance=answer %}

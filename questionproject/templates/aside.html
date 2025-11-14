@@ -3,7 +3,7 @@
         <h2>Popular Tags</h2>
         <div class="popular-tags-links">
             {% for tag in popular_tags %}
-                <a class={% cycle 'red' 'blue' 'orange' 'green' %} shref="{% url "questions:questions_tag" tag.name %}">{{tag.name}}</a>
+                <a class={% cycle 'red' 'blue' 'orange' 'green' %} href="{% url "questions:questions_tag" tag.name %}">{{tag.name}}</a>
             {% endfor %}
         </div>
     </section>

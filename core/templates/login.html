@@ -1,21 +1,21 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% load static %}
 
 {% block page_links %}
-    <link rel="stylesheet" href="{% static "questions/css/index.css" %}">
-    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
-    <link rel="stylesheet" href="{% static "core/css/login.css" %}">
-    <link rel="stylesheet" href="{% static '/css/aside.css' %}">
-{% endblock%}
+    <link rel="stylesheet" href="{% static 'core/css/base_core.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aside.css' %}">
+{% endblock %}
 
 {% block content %}
 <main>
     <div class="content-with-form-wrapper">  
         <h2>Log in</h2>
+        
         <div class="input-error">
             Incorrect password.
         </div>
+        
         <form action="#" method="post">
             <div class="form-main-content">
                 <label class="enter-label">
@@ -25,19 +25,19 @@
                     </div>
                 </label>
                 <label class="enter-label">
-                    <span class="input-header" autocomplete="current-password" >Password</span>
+                    <span class="input-header">Password</span>
                     <div class="input-wrapper">
-                        <input type="password" name="password">
+                        <input type="password" name="password" autocomplete="current-password">
                     </div>
                 </label>
             </div>
-            <input type="submit" value="Log in">
+            <div class="form-submit-wrapper">
+                <input type="submit" value="Log in">
+            </div>
         </form>
-        <a href={% url "core:signup" %}>Create new account</a>
+        
+        <a href="{% url 'core:signup' %}">Create new account</a>
     </div>  
 </main>
 {% include 'aside.html' %}
 {% endblock content %}
-
-
-

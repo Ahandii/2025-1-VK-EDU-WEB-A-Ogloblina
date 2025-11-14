@@ -1,19 +1,25 @@
-from django.core.paginator import Paginator
 from django.views.generic import TemplateView
 from questions.models import Question, Answer, Tag, User
 from django.http import Http404
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from questions.managers import get_best_members
 
 def paginate(objects_list, request, per_page=10):
     page_number = request.GET.get("page", 1)
     paginator = Paginator(objects_list, per_page=per_page)
-    page_obj = paginator.get_page(page_number)
+    
+    try:
+        page_obj = paginator.get_page(page_number)
+    except PageNotAnInteger or EmptyPage:
+        page_obj = paginator.get_page(1)
+    
     return page_obj
 
 class BaseView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         popular_tags = Tag.objects.popular_tags()
-        best_members = User.objects.all()[:5] #заглушка на время
+        best_members = get_best_members(5) #узнать как лучше
         context["popular_tags"] = popular_tags
         context["best_members"] = best_members
         return context
