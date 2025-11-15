@@ -37,7 +37,7 @@
                     </svg>                
                     <input type="text" class="search" placeholder="Search">
                 </div>
-                <button class="ask-button">Ask</button>
+                <button onclick = "{% url "questions:question_ask" %}" class="ask-button">Ask</button>
             </div>
             {% if user.is_authenticated %}
                 <div class="profile-wrapper">
