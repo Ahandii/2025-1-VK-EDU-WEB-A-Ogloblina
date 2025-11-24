@@ -19,44 +19,18 @@ aside #popular_tags>.popular-tags-links {
     flex-wrap: wrap;
 }
  
- 
-.orange {
-    color: orange;
-}
-
-.blue {
-    color: blue;
-}
-
-.red {
-    color: red;
-}
-
-.green {
-    color: green;
-}
-
-aside .best_members a:hover {
-    color: blue
-}
-
-aside .best_members a:hover {
-    color: blue
-}
-
-aside a:hover {
-    color: blue; 
-}
-
-aside #best_members a,
-aside #popular_tags a {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-}
- 
 ul.best-members-links {
     list-style: none;
     text-decoration: none;
     padding: 0;
+}
+
+aside a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #007bff;
+}
+
+aside a:hover {
+    text-decoration: underline;
 }

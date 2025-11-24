@@ -44,6 +44,9 @@ header {
     margin-left: auto;
 }
 
+.profile-name {
+    font-weight: 600;
+}
 
 input {
     border: none;
@@ -53,16 +56,16 @@ input {
 
 h1 {
     font-size: 32px;
-    font-weight: 700px;
+    font-weight: 700;
 }
 
 h2 {
     font-size: 28px;
-    font-weight: 700px;
+    font-weight: 600;
 }
 h3 {
     font-size: 24px;
-    font-weight: 700px;
+    font-weight: 500;
 }
 
 input:focus {
@@ -77,20 +80,32 @@ input:focus {
     width: 100%;
 }
 
-header a:hover
-{
-    color: blue;
-}
-
 main a:hover {
     color: #ff0008;
 }
 
+.profile-wrapper a {
+    color: #007bff;
+}
+
+.profile-wrapper a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
 
 header a {
     white-space: nowrap;
+    text-decoration: none;
+    color: black;
 }
 
+header > a,
+header > a:hover,
+header > a:focus,
+header > a:active {
+    color: black;
+    text-decoration: none;
+}
 
 .search-line {
     width: 100%;
@@ -151,75 +166,18 @@ section.content {
     gap: 16px;
     flex-direction: column;
 }
- 
-.question-item {
-    padding: 8px;
-    border: solid 1px #ccc;
-    border-radius: 10px;
+
+.unauthorised-wrapper {
     display: flex;
-    gap: 16px;
-}
-
-.question__likes-and-avatar {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 12px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.question__likes-and-avatar .likes {
-    width: 40px;
-    border: solid 1px #ccc;
-    border-radius: 10px;
-    padding: 2px;
-}
- 
-
-
-.question-title {
-    font-size: 20px;
-    transition: color 0.2s ease-out;
-}
- 
-.question-title:hover {
-    color: red;
-}
- 
-
-.question__content > .description {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-}
- 
-.question__footer {
-    display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    gap: 8px;
 }
- 
-section.paginator {
-    margin-top: 12px;
+
+.unauthorised-wrapper a {
+    color: #007bff;
 }
- 
-section.paginator > * {
-    background-color: white;
- 
-    transition: background-color 1s ease-out;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 4px;
-    cursor: pointer;
-}
- 
-section.paginator > *:hover {
-    background-color: #4878d9a5;
-}
- 
-section.paginator > .no-click {
-    background-color: inherit;
-    cursor: default;
+
+.unauthorised-wrapper a:hover {
+    color: #0056b3;
+    text-decoration: underline;
 }

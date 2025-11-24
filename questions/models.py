@@ -7,10 +7,10 @@ class Profile(models.Model):
         verbose_name = "Профиль"
         verbose_name_plural = "Профили"
     avatar = models.CharField(verbose_name="Аватарка пользователя", max_length=255)
-    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, unique=True)
+    user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user}"
+        return f"{self.user_id}"
     
 class Tag(models.Model):
     class Meta:
@@ -74,6 +74,7 @@ class QuestionLikes(models.Model):
         verbose_name = "Лайк к вопросу"
         verbose_name_plural = "Лайки к вопросам"
         unique_together = ['user', 'question']
+    type = models.BooleanField(verbose_name = "Лайк?", help_text="true - лайк, false - дизлайк", default = True)
     question = models.ForeignKey("questions.Question", verbose_name = "Вопрос", on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
 

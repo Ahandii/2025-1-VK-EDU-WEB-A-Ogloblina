@@ -12,9 +12,11 @@
 <main>
     <div class="content-with-form-wrapper">  
         <h2>Registration</h2>
-        <div class="input-error">
-            This email is already registered.
-        </div>
+        {% if 0 %}
+            <div class="input-error">
+                This email is already registered.
+            </div>
+        {% endif %}
         <form action="#" method="post" enctype="multipart/form-data">
             <div class="form-main-content">
                 <label class="enter-label">

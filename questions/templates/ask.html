@@ -3,17 +3,18 @@
 
 {% block page_links%}
     <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
-    <link rel="stylesheet" href="{% static "css/aside.css" %}">
 {% endblock %}
 
 {% block content %}
 <main>
     <div class="content-with-form-wrapper">  
+        {% if 0 %}
         <h2>New question</h2>
         <div class="input-error">
             Text should have not less than 10 symbols.
         </div>
         <!-- <div class="input-error" style="display: none"> чтобы не отображать-->
+         {% endif %}
         <form action="#" method="post">
             <div class="form-main-content">
                 <label>

@@ -11,17 +11,14 @@
     </div>
 
     <div class="question__content">
-        <a href="{% url "questions:question_detail" instance.id %}" class="question-title">{{ instance.title }}</a> 
+        <div class="question-title">{{ instance.title }}</div> 
         <div class="description">{{ instance.content|truncate_str:50 }} </div>
         <div class="question__footer">
-            <a href="{% url "questions:question_detail" instance.id %}">answers ({{ instance.answers_cnt }})</a>
-            <div class="tags">
-                <div style="font-weight: 600" >Tags</div>
-                <div>
-                    {% for tag in instance.tags.all %}
-                        <a href="{% url "questions:questions_tag" tag.name %}">{{ tag.name }}</a>
-                    {% endfor %}
-                </div>
+            <div style="font-weight: 600" >Tags</div>
+            <div>
+                {% for tag in instance.tags.all %}
+                    <a href="{% url "questions:questions_tag" tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
             </div>
         </div>
     </div>      

@@ -121,6 +121,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "questionproject/static/"),
     os.path.join(BASE_DIR, "questions/static/"),
     os.path.join(BASE_DIR, "core/static"),
-    'static/',
+    #'static/',
 ]
 

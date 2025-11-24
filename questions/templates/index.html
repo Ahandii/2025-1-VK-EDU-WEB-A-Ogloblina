@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="{% static 'questions/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'questions/css/question_card.css' %}">
     <link rel="stylesheet" href="{% static '/css/paginator.css' %}">
-    <link rel="stylesheet" href="{% static '/css/aside.css' %}">
 {% endblock %}
 
 
@@ -18,15 +17,17 @@
 {% endif %}
 {% endblock %}
 
-
 {% block content %}
 <main class="root__main">
     <section class="root__header">
         {% if tag %}
             <h2>Tag: {{ tag }} </h2>
+        {% elif hot %}
+            <a href="{% url "questions:questions_hot" %}"> <h2>Hot questions </h2></a>
+            <a href="{% url "questions:index_question_view" %}"> <h3>New questions</h3></a>
         {% else %}
-            <h2>New questions</h2>
-            <a href="{% url "questions:questions_hot" %}" class="hot-questions">Hot questions</a>
+            <a href="{% url "questions:index_question_view" %}"> <h2>New questions</h2></a>
+            <a href="{% url "questions:questions_hot" %}"> <h3>Hot questions </h3></a>
         {% endif %}
     </section>
     

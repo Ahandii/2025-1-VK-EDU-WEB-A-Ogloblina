@@ -14,9 +14,10 @@
         {% endblock %}
     </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
     {% block page_links %}{% endblock  %}
+    {% block aside_links %}{% endblock %}
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,7 +30,7 @@
 <body>
     <div class="page-content">
         <header>
-            <h1>AskPupkin</h1>
+            <a href="{% url "questions:index_question_view" %}"> <h1>AskPupkin</h1> </a>
             <div class="search-item">
                 <div class="search-line">
                     <svg class="loupe" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
@@ -37,14 +38,13 @@
                     </svg>                
                     <input type="text" class="search" placeholder="Search">
                 </div>
-                <button onclick = "{% url "questions:question_ask" %}" class="ask-button">Ask</button>
+                <button onclick="window.location.href='{% url "questions:question_ask" %}'" class="ask-button">Ask</button>
             </div>
             {% if user.is_authenticated %}
                 <div class="profile-wrapper">
-                {% comment %} TODO поменять url на аватар {% endcomment %}
                 <img src={% static 'questions/img/avatar.png'%} alt="avatar" class="avatar">
                 <div>
-                    <div class="profile-name">Dr. Pepper</div>
+                    <div class="profile-name">{{ user.username }}</div>
                     <div class="button-wrapper">
                         <a href={% url "core:settings" %}>settings</a>
                         <a href={% url "core:settings" %}>log out</a>
@@ -52,8 +52,10 @@
                 </div>
             </div>
             {% else %}
-                <a href={% url "core:login" %}>log in</a>
-                <a href={% url "core:signup" %}>register</a>
+                <div class="unauthorised-wrapper">
+                    <a href={% url "core:login" %}>log in</a>
+                    <a href={% url "core:signup" %}>register</a>
+                <div>
             {% endif %}
             
         </header>

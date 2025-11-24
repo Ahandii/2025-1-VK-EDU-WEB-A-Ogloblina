@@ -12,10 +12,11 @@
     <div class="content-with-form-wrapper">  
         <h2>Log in</h2>
         
+        {% if error %}
         <div class="input-error">
             Incorrect password.
         </div>
-        
+        {% endif %}
         <form action="#" method="post">
             <div class="form-main-content">
                 <label class="enter-label">

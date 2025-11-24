@@ -1,10 +1,3 @@
-.question__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 12px;
-}
-
 .question-item {
     padding: 8px;
     border: solid 1px #ccc;
@@ -61,10 +54,6 @@
     font-weight: 700;
 }
 
-.question-title:hover {
-    color: red;
-}
-
 .question__content > .description {
     overflow: hidden;
     display: -webkit-box;
@@ -74,11 +63,11 @@
 
 .question__footer {
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     margin-top: auto;
+    margin-right: auto;
     gap: 8px;
 }
 
@@ -92,11 +81,9 @@
     text-decoration: underline;
 }
 
-.tags {
+.question__footer div {
     margin-left: auto;
     display: flex;
-    flex-direction: row;
     gap: 8px;
-    align-items: center;
-    gap: 8px;
+    flex-wrap: wrap;
 }

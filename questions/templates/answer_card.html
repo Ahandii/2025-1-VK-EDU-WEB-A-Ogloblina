@@ -4,7 +4,9 @@
     <div class="answer__likes-and-avatar">
         <img src="{% static 'questions/img/avatar.png' %}" alt="avatar" class="avatar">
         <div class="likes">
-            <input style="font-size: 14px;" type="number" value={{ instance.likes }}>
+            <button class="btn-like">▲</button>
+            {{ instance.likes }}
+            <button class="btn-like">▼</button>            
         </div>
     </div>
     <div class="answer__content">
