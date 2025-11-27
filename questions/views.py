@@ -51,12 +51,13 @@ class DetailView(BaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = self.kwargs.get("pk")
-        question = get_object_or_404(Question, pk=id)
-        context["question"] = Question.objects.get(pk=id)
+        question = Question.objects.filter(pk=id).first()
+        if question is None:
+            raise Http404("Question doesn't exist")
+        context["question"] = question
         context["answers"] = Answer.objects.answers_by_question_id(id)
         return context
 
-        
 class QuestionsTagView(BaseView):
     template_name = "index.html"
     def get_context_data(self, **kwargs):

@@ -13,19 +13,18 @@ class QuestionManager(models.Manager):
     def active(self):
         return self.filter(is_active=1)\
             .select_related("author")\
-            .order_by("-created_at")\
-            .only("title", "author", "answer", "likes", "dislikes", "is_active", "created_at")
+            .prefetch_related("tags") \
+            .order_by("-created_at")
     def hot(self):
         return self.filter(is_active=True) \
             .select_related("author") \
-            .order_by("-answers_cnt", "-created_at")\
-            .only("title", "author", "answer", "likes", "dislikes", "is_active", "created_at")
-    
+            .prefetch_related("tags") \
+            .order_by("-answers_cnt", "-created_at")
     def tag(self, tag_id):
         return self.filter(tags__id=tag_id)\
             .select_related("author")\
-            .order_by("-created_at")\
-            .only("title", "author", "answer", "likes", "dislikes", "is_active", "created_at")
+            .prefetch_related("tags") \
+            .order_by("-created_at")
  
 class AnswerManager(models.Manager):
     def answers_by_question_id(self, id):
