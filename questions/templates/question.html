@@ -23,12 +23,11 @@
     </section>    
     
     <section class="user-answer">
-        <form action="#" method="post">
-            <label>
-                <div class="input-wrapper">
-                    <textarea name="text" placeholder="Enter your answer here"></textarea>
-                </div>
-            </label>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {% include 'blocks/question_form_field.html' %}
+            {% endfor %}
             <input type="submit" value="Answer" name="tags">
         </form>
     </section>

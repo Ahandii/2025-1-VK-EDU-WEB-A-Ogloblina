@@ -97,3 +97,7 @@ section.page-header {
     color: #007bff;
     transition: color 0.2s ease;
 }
+
+button.btn-like.question.chosen  {
+    color: #4878d9;
+}

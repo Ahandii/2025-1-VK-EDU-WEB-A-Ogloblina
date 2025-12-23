@@ -8,35 +8,14 @@
 {% block content %}
 <main>
     <div class="content-with-form-wrapper">  
-        {% if 0 %}
-        <h2>New question</h2>
-        <div class="input-error">
-            Text should have not less than 10 symbols.
-        </div>
-        <!-- <div class="input-error" style="display: none"> чтобы не отображать-->
-         {% endif %}
         <form action="#" method="post">
+            {% csrf_token %}
             <div class="form-main-content">
-                <label>
-                    <span class="input-header">Title</span>
-                    <div class="input-wrapper">
-                        <input type="text" name="title">
-                    </div>
-                </label>
-                <label>
-                    <span class="input-header">Text</span>
-                    <div class="input-wrapper">
-                        <textarea name="text"></textarea>
-                    </div>
-                </label>
-                <label>
-                    <span class="input-header">Tags</span>
-                    <div class="input-wrapper">
-                        <input type="text">
-                    </div>
-                </label>
+                {% for field in form %}
+                    {% include 'blocks/question_form_field.html' %}
+                {% endfor %}
             </div>
-            <input type="submit" value="Ask question" name="tags">
+            <input type="submit" value="Ask question">
         </form>
     </div>  
 </main>

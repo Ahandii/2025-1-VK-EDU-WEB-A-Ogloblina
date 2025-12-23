@@ -1,5 +1,6 @@
 from django.contrib import admin
-from questions.models import Profile, Question, Answer, QuestionLikes, AnswerLikes, Tag
+from questions.models import Question, Answer, QuestionLikes, AnswerLikes, Tag
+from core.models import Profile 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):

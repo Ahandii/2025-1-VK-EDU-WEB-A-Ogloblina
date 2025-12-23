@@ -13,37 +13,11 @@
     <div class="content-with-form-wrapper">  
         <h2>Settings</h2>
         <form action="#" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="form-main-content">
-                <label class="enter-label">
-                    <span class="input-header">Login</span>
-                    <div class="input-wrapper">
-                        <input type="text" name="login" value={{ user.login }}>
-                    </div>
-                </label>
-                <label class="enter-label">
-                    <span class="input-header">Email</span>
-                    <div class="input-wrapper">
-                        <input type="email" name="email" value= {{ user.email }}>
-                    </div>
-                </label>
-                <label class="enter-label">
-                    <span class="input-header">NickName</span>
-                    <div class="input-wrapper">
-                        <input type="text" name="nickname" value={{ user.username }}>
-                    </div>
-                </label>
-    
-                <div class="re-upload">
-                    <span class="input-header">Avatar</span>
-                    <div class="file-re-upload">
-                        <img src="{% static 'questions/img/avatar.png' %}" alt="avatar" class="user-avatar">
-                        <div class="file-upload">
-                            <input type="file" id="avatar-input" name="avatar">
-                            <label for="avatar-input" class="file-upload-button">Choose file</label>
-                            <span class="file-name">No file chosen</span>
-                        </div>
-                    </div>
-                </div>
+                {% for field in form %}
+                    {% include "blocks/form_field.html" %}
+                {% endfor %}
             </div>
             <div class="form-submit-wrapper">
                 <input type="submit" value="Save">

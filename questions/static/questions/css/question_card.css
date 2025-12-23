@@ -100,3 +100,11 @@
     align-items: center;
     gap: 8px;
 }
+
+button.btn-like.question.chosen  {
+    color: #4878d9;
+}
+
+button.btn-like.answer.chosen  {
+    color: #4878d9;
+}

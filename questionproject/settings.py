@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read(os.path.join(BASE_DIR, PROJECT_NAME, 'prod.conf'))
 
-DEBUG = config.getboolean("common", "DEBUG", fallback=False)
+DEBUG = True
 SECRET_KEY = config.get("secret", "SECRET_KEY", fallback="!secret_key!")
 
 # Application definition
@@ -25,8 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_rename_app",
-    "django_extensions"
+    "django_rename_app"
 ]
 
 INSTALLED_APPS += [
@@ -44,7 +43,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_URL = "core:login"
+
 ROOT_URLCONF = 'questionproject.urls'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMPLATES = [
     {
@@ -60,9 +64,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
             "builtins": [
-                'questions.templatetags.index'
+                'questions.templatetags.index',
+                'core.templatetags.form_extras'    
             ]
         },
     },
@@ -124,4 +130,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "core/static"),
     #'static/',
 ]
+
 

@@ -1,16 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from questions.managers import QuestionManager, AnswerManager, TagManager
-
-class Profile(models.Model):
-    class Meta:
-        verbose_name = "Профиль"
-        verbose_name_plural = "Профили"
-    avatar = models.CharField(verbose_name="Аватарка пользователя", max_length=255)
-    user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.user_id}"
+from questions.managers import QuestionManager, AnswerManager, TagManager, QuestionLikeManager, AnswerLikeManager
     
 class Tag(models.Model):
     class Meta:
@@ -75,13 +65,18 @@ class QuestionLikes(models.Model):
         verbose_name_plural = "Лайки к вопросам"
         unique_together = ['user', 'question']
     type = models.BooleanField(verbose_name = "Лайк?", help_text="true - лайк, false - дизлайк", default = True)
-    question = models.ForeignKey("questions.Question", verbose_name = "Вопрос", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
+    question = models.ForeignKey("questions.Question", verbose_name = "Вопрос", on_delete=models.CASCADE, related_name="all_likes")
+    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, related_name="all_likes")
+    is_active = models.BooleanField(default=True)
+    objects = QuestionLikeManager()
 
 class AnswerLikes(models.Model):
     class Meta:
         verbose_name = "Лайк к ответу"
         verbose_name_plural = "Лайки к ответам"
         unique_together = ['user', 'answer']
+    type = models.BooleanField(verbose_name = "Лайк?", help_text="true - лайк, false - дизлайк", default = True)
     answer = models.ForeignKey("questions.Answer", verbose_name = "Ответ", on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    objects = AnswerLikeManager()

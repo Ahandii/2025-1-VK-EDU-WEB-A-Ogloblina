@@ -1,0 +1,29 @@
+{% load form_extras %}
+
+<div class="form__row">
+    <label for="id_{{ field.name }}">
+        <span class="input-header">{{ field.label }}
+        <div class="input-wrapper">
+            {% if field.name == 'text' %}
+                <textarea name="text"></textarea>
+            {% else %}
+                <input type="{{ field.typefield.field.widget.input_type }}" name="{{ field.name }}"
+                id="id_{{ field.name }}"
+                type="{{ field.field.widget.input_type }}"
+                name="{{ field.name }}"
+                autocomplete="off"
+                {% if field|is_required %} required {% endif %}
+                value="{{ field.value|default_if_none:'' }}"
+                {% if field|is_disabled %} disabled {% endif %}>
+            {% endif %}
+        </div>
+    </label>
+
+    {% if field.errors %}
+        <div class="form__error-wrapper">
+            {% for error in field.errors %}
+                <span class="warning-caption">{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

@@ -84,3 +84,11 @@ input[type="submit"]:hover {
     border: 1px solid #f5c6cb;
     text-align: center;
 }
+
+.field__star {
+    color: rgb(177, 0, 0);
+}
+
+.warning-caption {
+    color: rgb(177, 0, 0);
+}

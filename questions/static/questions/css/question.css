@@ -43,3 +43,10 @@ textarea {
   min-height: 100px;
 }
 
+button.btn-like.question.chosen  {
+    color: #4878d9;
+}
+
+button.btn-like.answer.chosen  {
+    color: #4878d9;
+}

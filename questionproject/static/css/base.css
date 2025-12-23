@@ -181,3 +181,8 @@ section.content {
     color: #0056b3;
     text-decoration: underline;
 }
+
+:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
