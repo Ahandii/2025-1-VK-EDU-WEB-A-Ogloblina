@@ -13,16 +13,19 @@ class QuestionManager(models.Manager):
     def active(self):
         return self.filter(is_active=1)\
             .select_related("author")\
+            .select_related("author__profile") \
             .prefetch_related("tags") \
             .order_by("-created_at")
     def hot(self):
         return self.filter(is_active=True) \
             .select_related("author") \
+            .select_related("author__profile") \
             .prefetch_related("tags") \
             .order_by("-answers_cnt", "-created_at")
     def tag(self, tag_id):
         return self.filter(tags__id=tag_id)\
             .select_related("author")\
+            .select_related("author__profile") \
             .prefetch_related("tags") \
             .order_by("-created_at")
  
@@ -31,7 +34,8 @@ class AnswerManager(models.Manager):
         from questions.models import Answer
         return Answer.objects.filter(question_id=id)\
             .order_by("created_at")\
-            .only("is_correct", "content", "likes", "dislikes")
+            .select_related("author")\
+            .select_related("author__profile") \
 
 class TagManager(models.Manager):
     def with_questions_count(self):

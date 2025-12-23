@@ -2,8 +2,8 @@
 
 <div class="answer-item">
     <div class="answer__likes-and-avatar">
-        {% if instance.author.avatar %}
-            <img src="{{ instance.author.avatar.url }}" alt="avatar" class="avatar">
+        {% if instance.author.profile %}
+            <img src="{{ instance.author.profile.avatar.url }}" alt="avatar" class="avatar">
         {% else %}
             <img src="/media/avatars/no-avatar.jpeg" alt="avatar" class="avatar">
         {% endif %}

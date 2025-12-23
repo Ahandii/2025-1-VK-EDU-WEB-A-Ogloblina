@@ -50,3 +50,7 @@ button.btn-like.question.chosen  {
 button.btn-like.answer.chosen  {
     color: #4878d9;
 }
+
+.label {
+    width: 100%;
+}

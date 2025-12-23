@@ -1,11 +1,11 @@
 {% load form_extras %}
 
 <div class="form__row">
-    <label for="id_{{ field.name }}">
-        <span class="input-header">{{ field.label }}
+    <label for="id_{{ field.name }}" style="width: 100%">
+        <span class="input-header">{{ field.label }}</span>
         <div class="input-wrapper">
-            {% if field.name == 'text' %}
-                <textarea name="text"></textarea>
+            {% if field.name == 'content' %}
+                <textarea name="content"></textarea>
             {% else %}
                 <input type="{{ field.typefield.field.widget.input_type }}" name="{{ field.name }}"
                 id="id_{{ field.name }}"

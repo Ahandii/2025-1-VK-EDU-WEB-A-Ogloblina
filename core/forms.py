@@ -57,7 +57,7 @@ class SignupForm(forms.ModelForm):
         return user
     
 class ProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(label = "Avatar", validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])])
+    avatar = forms.ImageField(label = "Avatar", validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])], required=False)
 
     class Meta:
         model = User
@@ -92,7 +92,8 @@ class ProfileForm(forms.ModelForm):
         user = super().save(commit = False)
         profile = Profile.objects.filter(user=user).first()
         if profile:
-            profile.avatar = self.cleaned_data['avatar']
+            if not profile.avatar:
+                profile.avatar = self.cleaned_data['avatar']
         else:
             profile = Profile.objects.create(user=user, avatar=self.cleaned_data['avatar'])
         if commit:

@@ -34,6 +34,7 @@ header {
 .avatar {
     width: 50px;
     border-radius: 50%;
+    height: 50px;
 }
 
 .profile-wrapper {
@@ -185,4 +186,12 @@ section.content {
 :disabled {
     opacity: 0.5;
     pointer-events: none;
+}
+
+.avatar {
+    object-fit: cover;
+}
+
+.label {
+    width: 100%;
 }

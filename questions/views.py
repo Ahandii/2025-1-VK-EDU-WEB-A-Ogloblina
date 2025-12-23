@@ -114,8 +114,8 @@ class QuestionAskView(FormView):
         user = self.request.user
         if user:
             form.instance.author = self.request.user
-            form.save()
-            return HttpResponseRedirect(reverse('questions:index_question_view'))
+            question = form.save()
+            return HttpResponseRedirect(reverse('questions:question_detail', kwargs={'pk': question.id}))
         else:
             return HttpResponseRedirect(reverse('core:login'))
         
@@ -163,12 +163,11 @@ class CheckAnswerView(APIView):
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             raise HttpResponseForbidden("User is not authorized")
-        print("888")
         answer_id = kwargs["id"]
         answer = Answer.objects.filter(id=answer_id).first()
         if answer is None:
             raise Http404("Answer doesn't exist")
-        if answer.author == request.user:
+        if answer.question.author == request.user:
             answer.is_correct = not answer.is_correct
             answer.save(update_fields=["is_correct"])
             return JsonResponse({"status": "ok", "is_correct": answer.is_correct }, status = 200)
