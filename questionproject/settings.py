@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['questions.localhost', '127.0.0.1', '0.0.0.0', 'localhost']
 
 PROJECT_NAME = "questionproject"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -130,5 +130,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "core/static"),
     #'static/',
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 

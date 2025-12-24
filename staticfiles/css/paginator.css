@@ -1,0 +1,47 @@
+.paginator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0;
+    user-select: none;
+}
+
+.paginator a,
+.paginator span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: black;
+    
+}
+
+.paginator a:hover {
+    transition: all 0.3s ease;
+    border-color: #007bff;
+    color: inherit;
+}
+
+.paginator .current {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.paginator .dots {
+    color: black;
+    font-size: 14px;
+    padding: 0 4px;
+}
+
+.paginator .no-border {
+    border: none;
+    background: none;
+}
