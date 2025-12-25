@@ -5,6 +5,16 @@ from django.contrib.auth.password_validation import validate_password
 from core.models import Profile 
 from django.core.validators import FileExtensionValidator
 
+def validate_image(img, max_upload_size):
+    img_file = img.file
+    
+    if img_file.size > max_upload_size:
+        size_mb = max_upload_size / (1024)
+        err_msg = f'Размер файла не должен превышать {size_mb:.1f} KB'
+        raise forms.ValidationError(err_msg)
+    
+    return img
+
 class LoginForm(forms.Form):
     login = forms.CharField(label = "Login", max_length=255, required=True)
     password = forms.CharField(label = "Password", max_length=255, required=True, widget=forms.PasswordInput())
@@ -45,6 +55,11 @@ class SignupForm(forms.ModelForm):
                                    
         return cleaned_data
     
+    #def clean_avatar(self):
+      #  avatar = self.cleaned_data.get('avatar')
+      #  img = validate_image(avatar, 10 * 1024)
+    #  return img 
+    
     def save(self, commit=True):
         user = super().save(commit = False)
         user.set_password(self.cleaned_data.get('password'))
@@ -73,6 +88,11 @@ class ProfileForm(forms.ModelForm):
     def success_url(self):
         return reverse("core:settings")
 
+    #def clean_avatar(self):
+       # avatar = self.cleaned_data.get('avatar')
+      #  img = validate_image(avatar, 10 * 1024)
+     #   return img 
+    
     def clean(self):
         cleaned_data = super().clean()
 

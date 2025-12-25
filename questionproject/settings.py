@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-ALLOWED_HOSTS = ['questions.localhost', '127.0.0.1', '0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['ogloblina.localhost', 'q.localhost', 'questions.localhost', '127.0.0.1', '0.0.0.0', 'localhost']
 
 PROJECT_NAME = "questionproject"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read(os.path.join(BASE_DIR, PROJECT_NAME, 'prod.conf'))
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = config.get("secret", "SECRET_KEY", fallback="!secret_key!")
 
 # Application definition
@@ -124,6 +124,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "questionproject/static/"),
     os.path.join(BASE_DIR, "questions/static/"),
@@ -133,4 +134,5 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
