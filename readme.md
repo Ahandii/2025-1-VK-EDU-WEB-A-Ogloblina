@@ -16,6 +16,7 @@ http {
 
 # Отдача статического документа напрямую через nginx
 
+```
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/static/admin/css/base.css
 
 Server Software:        nginx/1.18.0
@@ -53,9 +54,11 @@ Percentage of the requests served within a certain time (ms)
   98%     23
   99%     23
  100%     24 (longest request)
+```
 
 # Отдача статического документа напрямую через gunicorn
 
+```
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://127.0.0.1:8000/static/admin/css/base.css
 
 Server Software:        gunicorn
@@ -94,9 +97,11 @@ Percentage of the requests served within a certain time (ms)
   98%    166
   99%    170
  100%    193 (longest request)
+```
 
 # Отдача динамического документа напрямую через gunicorn
 
+```
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://127.0.0.1:8000/questions/
 
 Server Software:        gunicorn
@@ -134,9 +139,11 @@ Percentage of the requests served within a certain time (ms)
   98%   5705
   99%   5720
  100%   5734 (longest request)
+```
 
 # Отдача динамического документа через проксирование запроса с nginx на gunicorn
 
+```
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/questions/ 
 
 Server Software:        nginx/1.18.0
@@ -176,11 +183,13 @@ Percentage of the requests served within a certain time (ms)
   98%   5732
   99%   5825
  100%   5844 (longest request)
+```
 
 # Отдача динамического документа через проксирование запроса с nginx на gunicorn, при кэшировние ответа на nginx (proxy cache)
 
 До этого были проведены измерения с кэшом. Теперь результаты для проксирования nginx на gunicorn без кэша.
 
+```
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/questions/ 
 
 Server Software:        nginx/1.18.0
@@ -218,3 +227,4 @@ Percentage of the requests served within a certain time (ms)
   98%   6129
   99%   6139
  100%   6180 (longest request)
+```
