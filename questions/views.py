@@ -80,7 +80,7 @@ class DetailView(FormView, BaseView):
     
     def form_valid(self, form):
         user = self.request.user
-        if user:
+        if user.is_authenticated:
             form.instance.author = self.request.user
             form.instance.question = self.question
             form.save()
@@ -104,7 +104,7 @@ class QuestionsTagView(BaseView):
         context["tag"] = tag_name
         return context
 
-class QuestionAskView(FormView):
+class QuestionAskView(LoginRequiredMixin, FormView):
     http_method_names = ['get', 'post']
     template_name = "ask.html"
     form_class = QuestionForm

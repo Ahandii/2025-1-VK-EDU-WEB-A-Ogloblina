@@ -13,6 +13,7 @@ http {
         proxy_cache_path /home/alex/Education/VK/WEB/QuestionProject/nginx_cache levels=1  keys_zone=question_zone:10m inactive=24h max_size=50m;
         sendfile on;
 ```
+
 # Отдача статического документа напрямую через nginx
 
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/static/admin/css/base.css
