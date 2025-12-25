@@ -3,3 +3,5 @@ prod.conf
 .venv
 /.vscode/
 __pycache__/
+media/
+nginx_cache/
