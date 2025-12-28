@@ -16,6 +16,7 @@
 
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <script src="https://unpkg.com/centrifuge@5.4.0/dist/centrifuge.js"></script>
     {% block page_links %}{% endblock  %}
     {% block aside_links %}{% endblock %}
     <style>
@@ -69,7 +70,6 @@
 </body>
 <script>
     const questionButtons = document.querySelectorAll("button.question");
-    const answerButtons = document.querySelectorAll("button.answer");
     console.log(questionButtons)
     function getCookie(name) {
         let cookieValue = null;
@@ -130,72 +130,9 @@
             .finally(() => {console.log("finally")})
         });
     }
-    for (const btn of answerButtons) {
-        btn.addEventListener("click", (event) => {
-            const { answerId, likeType } = event.target.dataset;
-            console.log(`span.counter[data-answer-id="${answerId}"]`)
-            const url = `/questions/answers/${answerId}/like/`;
-            const data = { type: likeType };
-            console.log(data)
-            console.log(likeType)
-            const init = {
-                method: "POST",
-                mode: 'same-origin',
-                headers: { "X-CSRFToken": csrftoken, 'Content-Type': 'application/json; charset=UTF-8' },
-                body: JSON.stringify(data),
-            }     
-        fetch(url, init)
-            .then((response) => response.json())
-            .then((responseAsJson) => {
-                const likeCounter = document.querySelector(`span.counter[data-answer-id="${answerId}"]`);
-                likeCounter.textContent = responseAsJson.new_likes_count
-                type = responseAsJson.type
-                btnlike = document.querySelector(`button.answer[data-answer-id="${answerId}"][data-like-type="1"]`);
-                btndislike = document.querySelector(`button.answer[data-answer-id="${answerId}"][data-like-type="0"]`);
-                if (type=="-1") {
-                    btndislike.classList.add("chosen")
-                    btnlike.classList.remove("chosen")
-                } else if (type=="0") {
-                    btndislike.classList.remove("chosen")
-                    btnlike.classList.remove("chosen")
-                } else if (type=="1") {
-                    btndislike.classList.remove("chosen")
-                    btnlike.classList.add("chosen")
-                }
-            })
-            .catch((e) => { console.error(e)})
-            .finally(() => {console.log("finally")})
-        });
-    }
-    const checkboxes = document.querySelectorAll("input.checkbox");
-    console.log("checkboxes", checkboxes)
-    for (const checkbox of checkboxes) {
-        checkbox.addEventListener("click", (event) => {
-            const { answerId } = event.target.dataset;
-            console.log(answerId)
-            const url = `/questions/answers/${answerId}/check/`;
-            const init = {
-                method: "POST",
-                mode: 'same-origin',
-                headers: { "X-CSRFToken": csrftoken },
-            }
-        console.log(url, csrftoken)
-        
-        fetch(url, init)
-            .then((response) => response.json())
-            .then((responseAsJson) => {
-                const check = document.querySelector(`input.checkbox[data-answer-id="${answerId}"]`);
-                check.checked = responseAsJson.is_correct
-                console.log("is_correct", responseAsJson.is_correct)
-                console.log("responseAsJson", responseAsJson)
-            })
-            .catch((e) => { console.error(e)})
-            .finally(() => {console.log("finally")})
-        });
-    }
+
 
     console.log(questionButtons);
-    console.log(answerButtons)
 </script>
 
 </html>

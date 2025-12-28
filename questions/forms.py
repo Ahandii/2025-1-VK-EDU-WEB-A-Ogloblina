@@ -10,7 +10,7 @@ class AnswerForm(forms.ModelForm):
         fields = [ "content" ]
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["content"].label = "Text"
+        self.fields["content"].label = "Type your answer here"
         self.fields["content"].required = True
 
     def success_url(self):
@@ -52,17 +52,15 @@ class QuestionForm(forms.ModelForm):
         if not tags_list:
             self.cleaned_data['tags'] = tags
             return cleaned_data
-        print(tags_list)
+        tags_list.replace(" ", "")
         tags = tags_list.split(',')
-        for (i, tag) in enumerate(tags):
+        result_tags = []
+        for tag in tags:
             tag = tag.strip()
-            print(tag)
-            if ' ' in tag:
-                raise forms.ValidationError({"tags": "Incorrect tags. Use , to separate tags"})
             if tag == '':
-                raise forms.ValidationError({"tags": "You can't add empty tag"})
-            tags[i] = tag
-        cleaned_data["tags"] = tags  
+                continue
+            result_tags.append(tag)
+        cleaned_data["tags"] = result_tags
         print(tags) 
         return cleaned_data
     

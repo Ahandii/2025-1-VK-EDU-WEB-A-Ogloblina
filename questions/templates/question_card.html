@@ -2,11 +2,7 @@
 
 <div class="question-item" data-id="{{ instance.id }}">
     <div class="question__likes-and-avatar">
-        {% if instance.author.profile %}
-            <img src="{{ instance.author.profile.avatar.url }}" alt="avatar" class="avatar">
-        {% else %}
-            <img src="/media/avatars/no-avatar.jpeg" alt="avatar" class="avatar">
-        {% endif %}
+        <img src="{{ instance.author.profile.get_avatar }}" alt="avatar" class="avatar">
         <div class="likes">
             <button class="btn-like question {%if instance.is_liked == 1 %}chosen{% endif %}" data-like-type="1" data-question-id = "{{ instance.id }}" {% if not user.is_authenticated %}disabled{%endif%} >▲</button>
             <span class="counter" data-question-id="{{ instance.id }}">{{ instance.likes }}</span>
