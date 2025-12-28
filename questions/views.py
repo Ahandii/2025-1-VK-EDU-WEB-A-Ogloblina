@@ -9,10 +9,13 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import Profile 
-from questionproject.settings import MEDIA_URL
+from questionproject.settings import MEDIA_URL, CENTRIFUGO_HMAC_SECRET, CENTRIFUGO_URL, CENTRIFUGO_API_KEY
 from rest_framework.views import APIView
 from django.db import IntegrityError
 from django.http import HttpResponseForbidden
+import jwt
+import time 
+from cent import Client, PublishRequest
 
 def paginate(objects_list, request, per_page=10):
     page_number = request.GET.get("page", 1)
@@ -23,6 +26,13 @@ def paginate(objects_list, request, per_page=10):
         page_obj = paginator.get_page(1)
     return page_obj
     
+def generate_token(user_id):
+    token = jwt.encode({
+        "sub": str(user_id),
+        "exp": int(time.time() * 10 * 60)
+    }, CENTRIFUGO_HMAC_SECRET, algorithm = "HS256")
+    return token
+
 class BaseView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,10 +70,15 @@ class QuestionsHotView(BaseView):
         context["hot"] = True
         return context
 
+def publish_to_centrifugo(channel, data):
+    api_url = f"http://{CENTRIFUGO_URL}/api"
+    client = Client(api_url, CENTRIFUGO_API_KEY)
+    request = PublishRequest(channel=channel, data=data)
+    client.publish(request)
+
 class DetailView(FormView, BaseView):
     form_class = AnswerForm
     template_name = "question.html"
-
     def dispatch(self, request, *args, **kwargs):
         id = self.kwargs.get("pk")
         question = Question.objects.filter(pk=id).first()
@@ -76,6 +91,10 @@ class DetailView(FormView, BaseView):
         context = super().get_context_data(**kwargs)
         context["question"] = self.question
         context["answers"] = setUserAnswerLikes(Answer.objects.answers_by_question_id(self.question.pk), self.request)
+        token = generate_token(self.request.user.pk)
+        context["centrifugo_token"] = token
+        context["centrifugo_url"] = CENTRIFUGO_URL
+        context["centrifugo_channel"] = f"channel_{self.question.id}" 
         return context
     
     def form_valid(self, form):
@@ -83,9 +102,21 @@ class DetailView(FormView, BaseView):
         if user.is_authenticated:
             form.instance.author = self.request.user
             form.instance.question = self.question
-            form.save()
+            answer = form.save()
             self.question.answers_cnt += 1
             self.question.save()
+
+            serialized_answer = {
+                "id": answer.id,
+                "content": answer.content,
+                "author": {
+                    "avatar": self.request.user.profile.avatar
+                },
+                "is_liked": 0,
+                "likes": 0, 
+                "is_correct": False
+            }
+            publish_to_centrifugo(f"channel_{self.question.id}", {"message": serialized_answer})
             return HttpResponseRedirect(reverse('questions:question_detail', kwargs={'pk': self.question.pk}))
         return HttpResponseRedirect(reverse('core:login'))
 
@@ -108,8 +139,7 @@ class QuestionAskView(LoginRequiredMixin, FormView):
     http_method_names = ['get', 'post']
     template_name = "ask.html"
     form_class = QuestionForm
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
+    
     def form_valid(self, form):
         user = self.request.user
         if user:

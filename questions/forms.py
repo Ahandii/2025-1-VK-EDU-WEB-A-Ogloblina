@@ -10,7 +10,7 @@ class AnswerForm(forms.ModelForm):
         fields = [ "content" ]
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["content"].label = "Text"
+        self.fields["content"].label = "Type your answer here"
         self.fields["content"].required = True
 
     def success_url(self):

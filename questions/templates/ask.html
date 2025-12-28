@@ -8,7 +8,7 @@
 {% block content %}
 <main>
     <div class="content-with-form-wrapper">  
-        <form action="#" method="post">
+        <form action="#" id="question-form" method="post">
             {% csrf_token %}
             <div class="form-main-content">
                 {% for field in form %}
@@ -19,6 +19,7 @@
         </form>
     </div>  
 </main>
+
 {% include "aside.html"%}
 
 {% endblock %}

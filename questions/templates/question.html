@@ -23,7 +23,7 @@
     </section>    
     
     <section class="user-answer">
-        <form method="post">
+        <form method="post" id="answer-form">
             {% csrf_token %}
             {% for field in form %}
                 {% include 'blocks/question_form_field.html' %}
@@ -32,6 +32,83 @@
         </form>
     </section>
 </main>
+
+{% load static %}
+
+{
+  "message": {
+    "avatar": "/media/avatars/no-avatar.jpeg", 
+    "answer-id": 123,
+    "is_liked": 1,
+
+  }
+}
+<div class="answer-item template">
+    <div class="answer__likes-and-avatar">
+        <img alt="avatar" class="avatar" data-search="answer-template-avatar">
+        <div class="likes">
+            <button class="btn-like answer chosen" data-like-type="1" data-answer-id=-1 data-search="answer-template-like">▲</button>
+            <span class="counter" data-answer-id=-1 data-search="answer-template-likes"> </span>
+            <button class="btn-like answer chosen" data-like-type="0" data-answer-id=-1 data-search="answer-template-like">▼</button>            
+        </div>
+    </div>
+    <div class="answer__content">
+        <div class="description" data-search="answer-template-content"></div>
+        <div class="answer__footer">
+            <label class="answer_checkbox__footer">
+                <input class="checkbox" data-answer-id=-1 type="checkbox" disabled checked>
+                <span>Correct!</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById("answer-form");
+    form.addEventListener('submit', async(e) => {
+        console.log("Hello")
+    })
+
+    const CENTRIFUGO_URL = "{{ centrifugo_url }}";
+    const CENTRIFUGO_TOKEN = "{{ centrifugo_token }}";
+    const centrifuge = new Centrifuge(`ws://${CENTRIFUGO_URL}/connection/websocket`, { token: CENTRIFUGO_TOKEN })
+    centrifuge.on('connecting', function (ctx) {
+      console.log(`connecting: ${ctx.code}, ${ctx.reason}`);
+    }).on('connected', function (ctx) {
+      console.log(`connected over ${ctx.transport}`);
+    }).on('disconnected', function (ctx) {
+      console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
+    }).connect();
+
+    const CENTRIFUGO_CHANNEL = "{{ centrifugo_channel }}"
+    console.log(CENTRIFUGO_CHANNEL)
+    const sub = centrifuge.newSubscription(CENTRIFUGO_CHANNEL);
+    
+    sub
+    .on('publication', function (ctx) {
+        const {message} = ctx.data;
+        const { text } = message || {};
+        const answerContainer = document.querySelector(".answers");
+        const answerTemplate = document.querySelector(".answer-item.template");
+
+        const newAnswerElement = answerTemplate.cloneNode(true);
+        newAnswerElement.querySelector('[data-search="answer-template-content"]').textContent = text;
+        newAnswerElement.classList.remove("template");
+        answerContainer.appendChild(newAnswerElement);
+        console.log(message);
+    })
+    .on('subscribing', function (ctx) {
+      console.log(`subscribing: ${ctx.code}, ${ctx.reason}`);
+    })
+    .on('subscribed', function (ctx) {
+      console.log('subscribed', ctx);
+    })
+    .on('unsubscribed', function (ctx) {
+      console.log(`unsubscribed: ${ctx.code}, ${ctx.reason}`);
+    })
+    .subscribe();
+</script>
+
 
 {% include "aside.html" %}  
 

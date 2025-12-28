@@ -51,3 +51,6 @@ button.btn-like.answer.chosen  {
     color: #4878d9;
 }
 
+.answer-item.template {
+    display: none;
+}
