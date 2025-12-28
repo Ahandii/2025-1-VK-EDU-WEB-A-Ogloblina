@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_links %}
+    <link rel="stylesheet" href="{% static 'core/css/base_core.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/file_upload.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/signup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aside.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="content-with-form-wrapper">  
+        <h2>Registration</h2>
+        <form action="#" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-main-content">
+               {% for field in form %}
+                    {% include 'blocks/form_field.html' %}
+               {% endfor %}
+            </div>
+            <div class="form-submit-wrapper">
+                <input type="submit" value="Register">
+            </div>
+        </form>
+    </div>  
+</main>
+{% include "aside.html" %}
+{% endblock %}

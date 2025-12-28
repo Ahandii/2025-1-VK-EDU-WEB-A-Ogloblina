@@ -1,0 +1,38 @@
+{% load form_extras %}
+
+<div class="form__row">
+    {% if field.name != "avatar" %}
+        <label class="enter-label" for="id_{{ field.name }}">
+            <span class="input-header">{{ field.label }}{% if field|is_required %}<span class="field__star">*</span>{% endif %}</span>
+            <div class="input-wrapper">
+                <input type="{{ field.typefield.field.widget.input_type }}" name="{{ field.name }}"
+                id="id_{{ field.name }}"
+                type="{{ field.field.widget.input_type }}"
+                name="{{ field.name }}"
+                autocomplete="off"
+                {% if field|is_required %} required {% endif %}
+                value="{{ field.value|default_if_none:'' }}"
+                {% if field|is_disabled %} disabled {% endif %}>
+            </div>
+        </label>
+    {% else %}
+        <div class="enter-label">
+            <span class="input-header">{{ field.label }}</span>
+            <div class="file-upload">
+                <img src="{{ avatar }}" alt="avatar" class="user-avatar">
+
+                <input type="file" id="avatar-input" name="avatar">
+                <label for="avatar-input" class="file-upload-button">Choose file</label>
+                <span class="file-name">No file chosen</span>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if field.errors %}
+        <div class="form__error-wrapper">
+            {% for error in field.errors %}
+                <span class="warning-caption">{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

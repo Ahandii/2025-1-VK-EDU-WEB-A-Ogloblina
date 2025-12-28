@@ -1,0 +1,27 @@
+{% load static %}
+
+{% block aside_links %}
+    <link rel="stylesheet" href="{% static '/css/aside.css' %}">
+{% endblock %}
+
+<aside>
+    <section id="popular-tags">
+        <h2>Popular Tags</h2>
+        <div class="popular-tags-links">
+            {% for tag in popular_tags %}
+                <a href="{% url "questions:questions_tag" tag.name %}">{{tag.name}}</a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="best-members">
+        <h2>Best Members</h2>
+        <ul class="best-members-links">
+            {% for member in best_members %}
+                <li>
+                    <a href="#">{{ member }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</aside>

@@ -1,0 +1,93 @@
+.main-askform-header {
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.main-askform-header > button {
+    margin-left: auto;
+    border-radius: 50%;
+    border: none;
+    width: 28px;
+    height: 28px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+form > label {
+    display: flex;
+    flex-direction: column;
+}
+
+form > input {
+    border-radius: 10px;
+    height: 40px;
+    max-width: 250px;
+    background-color: #4878d9;
+    color: #FFF;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transorm 0.3s ease-in-out;
+}
+
+form > input:active {
+    transform: scale(0.95);
+}
+
+textarea {
+    border: none;
+    width: 100%;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+.input-wrapper {
+    width: 100%;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+}
+
+input.input-header {
+    height: 45px;
+}
+
+.input-header {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.content-with-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.input-error {
+    color: #ff0000;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.btn-like.question.chosen  {
+    color: #4878d9;
+}

@@ -1,0 +1,202 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+ 
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>
+        {% block title %}
+        Главная страница
+        {% endblock %}
+    </title>
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    {% block page_links %}{% endblock  %}
+    {% block aside_links %}{% endblock %}
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    
+</head>
+{% endblock head %}
+
+<body>
+    <div class="page-content">
+        <header>
+            <a href="{% url "questions:index_question_view" %}"> <h1>AskPupkin</h1> </a>
+            <div class="search-item">
+                <div class="search-line">
+                    <svg class="loupe" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
+                    <path fill="#5e5e5e" d="M 13 3 C 7.4886661 3 3 7.4886661 3 13 C 3 18.511334 7.4886661 23 13 23 C 15.396652 23 17.59741 22.148942 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148942 17.59741 23 15.396652 23 13 C 23 7.4886661 18.511334 3 13 3 z M 13 5 C 17.430666 5 21 8.5693339 21 13 C 21 17.430666 17.430666 21 13 21 C 8.5693339 21 5 17.430666 5 13 C 5 8.5693339 8.5693339 5 13 5 z"></path>
+                    </svg>                
+                    <input type="text" class="search" placeholder="Search">
+                </div>
+                <button onclick="window.location.href='{% url "questions:question_ask" %}'" class="ask-button">Ask</button>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="profile-wrapper">
+                <img src="{{ avatar }}" alt="avatar" class="avatar">
+                <div>
+                    <div class="profile-name">{{ user.username }}</div>
+                    <div class="button-wrapper">
+                        <a href={% url "core:settings" %}>settings</a>
+                        <a href={% url "core:logout" %}>log out</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <div class="unauthorised-wrapper">
+                    <a href={% url "core:login" %}>log in</a>
+                    <a href={% url "core:signup" %}>register</a>
+                <div>
+            {% endif %}
+            
+        </header>
+
+        <div class="page-content__root">
+            {% block content %}{% endblock content %}
+        </div>
+
+    </div>
+
+</body>
+<script>
+    const questionButtons = document.querySelectorAll("button.question");
+    const answerButtons = document.querySelectorAll("button.answer");
+    console.log(questionButtons)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    const csrftoken = getCookie('csrftoken');
+
+    for (const btn of questionButtons) {
+        btn.addEventListener("click", (event) => {
+            const { questionId, likeType } = event.target.dataset;
+            console.log(`span.counter[data-question-id="${questionId}"]`)
+            const url = `/questions/${questionId}/like/`;
+            const data = { type: likeType };
+            console.log(data)
+            console.log(likeType)
+            const init = {
+                method: "POST",
+                mode: 'same-origin',
+                headers: { "X-CSRFToken": csrftoken, 'Content-Type': 'application/json; charset=UTF-8' },
+                body: JSON.stringify(data),
+            }
+
+        console.log(url, csrftoken)
+        
+        fetch(url, init)
+            .then((response) => response.json())
+            .then((responseAsJson) => {
+                const likeCounter = document.querySelector(`span.counter[data-question-id="${questionId}"]`);
+                likeCounter.textContent = responseAsJson.new_likes_count
+                type = responseAsJson.type
+                btnlike = document.querySelector(`button.question[data-question-id="${questionId}"][data-like-type="1"]`);
+                btndislike = document.querySelector(`button.question[data-question-id="${questionId}"][data-like-type="0"]`);
+                console.log(type)
+                if (type=="-1") {
+                    btndislike.classList.add("chosen")
+                    btnlike.classList.remove("chosen")
+                } else if (type=="0") {
+                    btndislike.classList.remove("chosen")
+                    btnlike.classList.remove("chosen")
+                } else if (type=="1") {
+                    btndislike.classList.remove("chosen")
+                    btnlike.classList.add("chosen")
+                }
+            })
+            .catch((e) => { console.error(e)})
+            .finally(() => {console.log("finally")})
+        });
+    }
+    for (const btn of answerButtons) {
+        btn.addEventListener("click", (event) => {
+            const { answerId, likeType } = event.target.dataset;
+            console.log(`span.counter[data-answer-id="${answerId}"]`)
+            const url = `/questions/answers/${answerId}/like/`;
+            const data = { type: likeType };
+            console.log(data)
+            console.log(likeType)
+            const init = {
+                method: "POST",
+                mode: 'same-origin',
+                headers: { "X-CSRFToken": csrftoken, 'Content-Type': 'application/json; charset=UTF-8' },
+                body: JSON.stringify(data),
+            }     
+        fetch(url, init)
+            .then((response) => response.json())
+            .then((responseAsJson) => {
+                const likeCounter = document.querySelector(`span.counter[data-answer-id="${answerId}"]`);
+                likeCounter.textContent = responseAsJson.new_likes_count
+                type = responseAsJson.type
+                btnlike = document.querySelector(`button.answer[data-answer-id="${answerId}"][data-like-type="1"]`);
+                btndislike = document.querySelector(`button.answer[data-answer-id="${answerId}"][data-like-type="0"]`);
+                if (type=="-1") {
+                    btndislike.classList.add("chosen")
+                    btnlike.classList.remove("chosen")
+                } else if (type=="0") {
+                    btndislike.classList.remove("chosen")
+                    btnlike.classList.remove("chosen")
+                } else if (type=="1") {
+                    btndislike.classList.remove("chosen")
+                    btnlike.classList.add("chosen")
+                }
+            })
+            .catch((e) => { console.error(e)})
+            .finally(() => {console.log("finally")})
+        });
+    }
+    const checkboxes = document.querySelectorAll("input.checkbox");
+    console.log("checkboxes", checkboxes)
+    for (const checkbox of checkboxes) {
+        checkbox.addEventListener("click", (event) => {
+            const { answerId } = event.target.dataset;
+            console.log(answerId)
+            const url = `/questions/answers/${answerId}/check/`;
+            const init = {
+                method: "POST",
+                mode: 'same-origin',
+                headers: { "X-CSRFToken": csrftoken },
+            }
+        console.log(url, csrftoken)
+        
+        fetch(url, init)
+            .then((response) => response.json())
+            .then((responseAsJson) => {
+                const check = document.querySelector(`input.checkbox[data-answer-id="${answerId}"]`);
+                check.checked = responseAsJson.is_correct
+                console.log("is_correct", responseAsJson.is_correct)
+                console.log("responseAsJson", responseAsJson)
+            })
+            .catch((e) => { console.error(e)})
+            .finally(() => {console.log("finally")})
+        });
+    }
+
+    console.log(questionButtons);
+    console.log(answerButtons)
+</script>
+
+</html>
+

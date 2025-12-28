@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_links %}
+    <link rel="stylesheet" href="{% static 'core/css/base_core.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aside.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="content-with-form-wrapper">  
+        <h2>Log in</h2>
+                
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-main-content">
+                {% for field in form%}
+                    {% include 'blocks/form_field.html' %}
+                {% endfor %}
+                {% if form.login.errors %}
+                    {% for error in form.login.errors %}
+                        <div class="input-error">
+                            {{error}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="input-error">
+                            {{error}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-submit-wrapper">
+                <input type="submit" value="Log in">
+            </div>
+        </form>
+        
+        <a href="{% url 'core:signup' %}">Create new account</a>
+    </div>  
+</main>
+{% include 'aside.html' %}
+{% endblock content %}

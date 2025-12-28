@@ -1,0 +1,29 @@
+{% load static %}
+
+<div class="question-item" data-id="{{ instance.id }}">
+    <div class="question__likes-and-avatar">
+        {% if instance.author.profile %}
+            <img src="{{ instance.author.profile.avatar.url }}" alt="avatar" class="avatar">
+        {% else %}
+            <img src="/media/avatars/no-avatar.jpeg" alt="avatar" class="avatar">
+        {% endif %}
+        <div class="likes">
+            <button class="btn-like question {% if instance.is_liked == 1 %}chosen{% endif %}"  data-like-type="1" data-question-id = "{{ instance.id }}">▲</button>
+            <span class="counter" data-question-id="{{ instance.id }}">{{ instance.likes }}</span>
+            <button class="btn-like question {% if instance.is_liked == -1 %}chosen{% endif %}"  data-like-type="0" data-question-id = "{{ instance.id }}">▼</button>         
+        </div>
+    </div>
+
+    <div class="question__content">
+        <div class="question-title">{{ instance.title }}</div> 
+        <div class="description">{{ instance.content|truncate_str:50 }} </div>
+        <div class="question__footer">
+            <div style="font-weight: 600" >Tags</div>
+            <div>
+                {% for tag in instance.tags.all %}
+                    <a href="{% url "questions:questions_tag" tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>      
+</div>    

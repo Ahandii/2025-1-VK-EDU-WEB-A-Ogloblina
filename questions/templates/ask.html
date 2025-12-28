@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_links%}
+    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="content-with-form-wrapper">  
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="form-main-content">
+                {% for field in form %}
+                    {% include 'blocks/question_form_field.html' %}
+                {% endfor %}
+            </div>
+            <input type="submit" value="Ask question">
+        </form>
+    </div>  
+</main>
+{% include "aside.html"%}
+
+{% endblock %}
+            

@@ -1,0 +1,56 @@
+.question__likes-and-avatar .avatar {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.root__main {
+    gap: 12px;
+}
+
+.answers {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 60px;
+}
+
+.answer__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.description {
+    overflow: hidden; 
+}
+
+.question__likes-and-avatar {
+    padding: 8px 6px;
+    gap: 6px;
+    justify-content: space-between;
+}
+
+.question__likes-and-avatar > .avatar {
+    width: 80px;
+}
+
+.user-answer {
+    width: 100%;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+button.btn-like.question.chosen  {
+    color: #4878d9;
+}
+
+button.btn-like.answer.chosen  {
+    color: #4878d9;
+}
+
+.label {
+    width: 100%;
+}

@@ -1,0 +1,197 @@
+.page-content {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+button {
+    transition: transorm 0.3s ease-in-out;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 4px;
+    gap: 16px;
+}
+ 
+.search-item>button.ask-button {
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #4CAF50;
+    border: none;
+    width: 48px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 50px;
+    border-radius: 50%;
+    height: 50px;
+}
+
+.profile-wrapper {
+    min-width: 180px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-left: auto;
+}
+
+.profile-name {
+    font-weight: 600;
+}
+
+input {
+    border: none;
+    font-size: 16px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+h3 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+input:focus {
+    outline: none;
+}
+
+.search-item {
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+main a:hover {
+    color: #ff0008;
+}
+
+.profile-wrapper a {
+    color: #007bff;
+}
+
+.profile-wrapper a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+header a {
+    white-space: nowrap;
+    text-decoration: none;
+    color: black;
+}
+
+header > a,
+header > a:hover,
+header > a:focus,
+header > a:active {
+    color: black;
+    text-decoration: none;
+}
+
+.search-line {
+    width: 100%;
+    max-width: 550px;
+    height: 100%;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    padding: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search {
+    padding-left: 35px;
+}
+
+.search-line .loupe {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.page-content__root {
+    display: flex;
+    gap: 48px;
+    flex-direction: row;
+    width: 100%;
+}
+ 
+main {
+    flex: 1;
+    min-width: 300px;
+}
+
+section.page-header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.root__questions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.root__main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+section.content {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+}
+
+.unauthorised-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.unauthorised-wrapper a {
+    color: #007bff;
+}
+
+.unauthorised-wrapper a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.avatar {
+    object-fit: cover;
+}
+
+.label {
+    width: 100%;
+}

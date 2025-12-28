@@ -1,0 +1,26 @@
+{% load static %}
+
+<div class="answer-item">
+    <div class="answer__likes-and-avatar">
+        {% if instance.author.profile %}
+            <img src="{{ instance.author.profile.avatar.url }}" alt="avatar" class="avatar">
+        {% else %}
+            <img src="/media/avatars/no-avatar.jpeg" alt="avatar" class="avatar">
+        {% endif %}
+        <div class="likes">
+            <button class="btn-like answer {%if instance.is_liked == 1 %}chosen{% endif %}" data-like-type="1" data-answer-id="{{ instance.id }}">▲</button>
+            <span class="counter" data-answer-id="{{ instance.id }}"> {{ instance.likes }} </span>
+            <button class="btn-like answer {%if instance.is_liked == -1 %}chosen{% endif %}" data-like-type="0" data-answer-id="{{ instance.id }}">▼</button>            
+        </div>
+    </div>
+    <div class="answer__content">
+        <div class="description"> {{ instance.content }} </div>
+
+        <div class="answer__footer">
+            <label class="answer_checkbox__footer">
+                <input class="checkbox" data-answer-id="{{ instance.id }}" type="checkbox" {% if request.user != answer.question.author %} disabled {% endif %}  {% if instance.is_correct %}checked{% endif %}>
+                <span>Correct!</span>
+            </label>
+        </div>
+    </div>
+</div>

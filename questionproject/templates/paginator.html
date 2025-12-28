@@ -1,0 +1,40 @@
+{% load static index %}
+
+<section class="paginator">
+        {% if page_obj.has_previous %}
+            <a class="no-border" href="?page={{ page_obj.previous_page_number }}" >&lt;</a>
+        {% endif %}
+
+        {% for num in page_obj|first %}
+            {% if num == page_obj.number %}
+                <span class="current">{{ page_obj.number }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page_obj|show_first_dots%}
+        <span class="dots no-border">...</span>
+        {% endif%}
+        {% for num in page_obj|middle %}
+            {% if num == page_obj.number %}
+                <span class="current">{{ page_obj.number }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj|show_last_dots%}
+        <span class="dots no-border">...</span>
+        {% endif%}
+        {% for num in page_obj|last %}
+            {% if num == page_obj.number %}
+                <span class="current">{{ page_obj.number }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="no-border" href="?page={{ page_obj.next_page_number }}" >&gt;</a>
+        {% endif %}
+</section>

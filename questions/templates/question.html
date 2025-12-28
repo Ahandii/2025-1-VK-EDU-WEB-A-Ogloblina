@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_links %}
+    <link rel="stylesheet" href="{% static "questions/css/one_question_card.css" %}">
+    <link rel="stylesheet" href="{% static "questions/css/ask.css" %}">
+    <link rel="stylesheet" href="{% static "questions/css/question.css" %}">
+    <link rel="stylesheet" href="{% static "questions/css/answer_card.css" %}">
+{% endblock %}
+
+{% block title %}
+    Вопрос {{ question.id }}
+{% endblock %}
+
+{% block content %}
+<main class="root__main">     
+
+    {% include "one_question_card.html" with instance=question %}
+    <section class="answers">
+        {% for answer in answers %}
+            {% include "answer_card.html" with instance=answer %}
+        {% endfor %}
+    </section>    
+    
+    <section class="user-answer">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {% include 'blocks/question_form_field.html' %}
+            {% endfor %}
+            <input type="submit" value="Answer" name="tags">
+        </form>
+    </section>
+</main>
+
+{% include "aside.html" %}  
+
+{% endblock %}
+
+
+
