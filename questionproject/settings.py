@@ -13,7 +13,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read(os.path.join(BASE_DIR, PROJECT_NAME, 'prod.conf'))
 
-DEBUG = False
+DEBUG = True
+
 SECRET_KEY = config.get("secret", "SECRET_KEY", fallback="!secret_key!")
 
 # Application definition
@@ -48,7 +49,7 @@ LOGIN_URL = "core:login"
 ROOT_URLCONF = 'questionproject.urls'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 TEMPLATES = [
     {

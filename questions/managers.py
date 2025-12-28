@@ -51,7 +51,8 @@ class QuestionLikeManager(models.Manager):
         if user_like is not None:
             if user_like.type != type:
                 user_like.type = type
-                user_like.save(update_fields=["type"])
+                user_like.is_active = True
+                user_like.save(update_fields=["type", "is_active"])
                 return 1 if user_like.type else -1
             else:
                 user_like.is_active = not user_like.is_active
@@ -64,7 +65,8 @@ class QuestionLikeManager(models.Manager):
             user_like = self.filter(**query).first()
             if user_like.type != type:
                 user_like.type = type
-                user_like.save(update_fields=["type"])
+                user_like.is_active = True
+                user_like.save(update_fields=["type", "is_active"])
                 return 1 if user_like.type else -1
             else:
                 user_like.is_active = not user_like.is_active
@@ -80,7 +82,8 @@ class AnswerLikeManager(models.Manager):
         if user_like is not None:
             if user_like.type != type:
                 user_like.type = type
-                user_like.save(update_fields=["type"])
+                user_like.is_active = True
+                user_like.save(update_fields=["type", "is_active"])
                 return 1 if user_like.type else -1
             else:
                 user_like.is_active = not user_like.is_active
@@ -93,7 +96,8 @@ class AnswerLikeManager(models.Manager):
             user_like = self.filter(**query).first()
             if user_like.type != type:
                 user_like.type = type
-                user_like.save(update_fields=["type"])
+                user_like.is_active = True
+                user_like.save(update_fields=["type", "is_active"])
                 return 1 if user_like.type else -1
             else:
                 user_like.is_active = not user_like.is_active
@@ -101,7 +105,7 @@ class AnswerLikeManager(models.Manager):
                 return (1 if user_like.type else -1) if user_like.is_active else 0
         return 1 if user_like.type else -1
     
-def setLikes(object_list, user_likes_dict):
+def set_likes(object_list, user_likes_dict):
     for obj in object_list:
         if obj.id in user_likes_dict:
             if user_likes_dict[obj.id]: 
@@ -111,7 +115,7 @@ def setLikes(object_list, user_likes_dict):
         else:
             obj.is_liked = 0
 
-def setUserQuestionLikes(page_obj, request):
+def set_user_question_likes(page_obj, request):
     if not request.user.is_authenticated:
         for obj in page_obj.object_list:
             obj.is_liked = 0
@@ -126,10 +130,10 @@ def setUserQuestionLikes(page_obj, request):
     
     user_likes_dict = {question_id: type for question_id, type in user_likes}
     
-    setLikes(page_obj.object_list, user_likes_dict)
+    set_likes(page_obj.object_list, user_likes_dict)
     return page_obj
 
-def setUserAnswerLikes(object_list, request):
+def set_user_answer_likes(object_list, request):
     if not request.user.is_authenticated:
         for obj in object_list:
             obj.is_liked = 0
@@ -144,10 +148,10 @@ def setUserAnswerLikes(object_list, request):
     
     user_likes_dict = {answer_id: type for answer_id, type in user_likes}
     
-    setLikes(object_list, user_likes_dict)
+    set_likes(object_list, user_likes_dict)
     return object_list
 
-def setUserQuestionLike(question, request):
+def set_user_question_like(question, request):
     from questions.models import QuestionLikes
     if not request.user.is_authenticated:
         question.is_liked = 0

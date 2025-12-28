@@ -12,3 +12,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user_id}"
+    
+    def get_avatar(self):
+        if self.avatar:
+            return self.avatar.url
+        if self.original_avatar:
+            return self.original_avatar.url
+        return "/media/avatars/no-avatar.jpeg" 

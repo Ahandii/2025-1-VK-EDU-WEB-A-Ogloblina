@@ -38,6 +38,7 @@
 
 .answer__likes-and-avatar .avatar {
     width: 60px;
+    height: 60px;
 }
 
 .answer__footer {

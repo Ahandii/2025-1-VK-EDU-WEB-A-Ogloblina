@@ -63,14 +63,11 @@ class LoginView(FormView, BaseView):
 class SignupView(FormView, BaseView):
     template_name = "signup.html"  
     form_class = SignupForm
-        
+    success_url = reverse_lazy("core:settings")
     def form_valid(self, form):
         user = form.save()
         auth.login(self.request, user)
         return HttpResponseRedirect(reverse('core:settings'))
-    
-    def success_url(self):
-        return reverse("core:settings")
 
 
 def logout_view(request):
@@ -81,6 +78,7 @@ class SettingsView(LoginRequiredMixin, FormView, BaseView):
     http_method_names = ['post', 'get']
     template_name = "settings.html"
     form_class = ProfileForm
+    success_url = reverse_lazy("core:settings")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -94,9 +92,8 @@ class SettingsView(LoginRequiredMixin, FormView, BaseView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = Profile.objects.filter(user__id=self.request.user.pk).first()
-        if profile and profile.avatar:
-            context["avatar"] = profile.avatar.url
-        else:
-            context["avatar"] = settings.MEDIA_URL + "avatars/no-avatar.jpeg"
+        if profile is not None:
+            context["avatar"] = profile.get_avatar()
+        
         return context 
   

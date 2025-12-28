@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, FormView
 from questions.models import Question, Answer, Tag, User, QuestionLikes, AnswerLikes
 from django.http import Http404, JsonResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from questions.managers import get_best_members, setUserQuestionLikes, setUserAnswerLikes, setUserQuestionLike
+from questions.managers import get_best_members, set_user_question_likes, set_user_answer_likes, set_user_question_like
 from django.shortcuts import get_object_or_404, redirect
 from questions.forms import QuestionForm, AnswerForm
 from django.http import HttpResponseRedirect
@@ -16,6 +16,7 @@ from django.http import HttpResponseForbidden
 import jwt
 import time 
 from cent import Client, PublishRequest
+from utils.string import str_to_int
 
 def paginate(objects_list, request, per_page=10):
     page_number = request.GET.get("page", 1)
@@ -40,10 +41,8 @@ class BaseView(TemplateView):
         best_members = get_best_members(5) 
 
         profile = Profile.objects.filter(user__id=self.request.user.pk).first()
-        if profile and profile.avatar:
-            context["avatar"] = profile.avatar.url
-        else:
-            context["avatar"] = MEDIA_URL + "avatars/no-avatar.jpeg"
+        if profile:
+            context["avatar"] = profile.get_avatar()
         context["popular_tags"] = popular_tags
         context["best_members"] = best_members
         return context
@@ -55,7 +54,7 @@ class IndexView(BaseView):
         context = super().get_context_data(**kwargs)
         questions = Question.objects.active()
         page_obj = paginate(questions, self.request)
-        page_obj = setUserQuestionLikes(page_obj, self.request)
+        page_obj = set_user_question_likes(page_obj, self.request)
         context["page_obj"] = page_obj
         return context
 
@@ -84,13 +83,13 @@ class DetailView(FormView, BaseView):
         question = Question.objects.filter(pk=id).first()
         if question is None:
             raise Http404("Question doesn't exist")
-        self.question = setUserQuestionLike(question, self.request)
+        self.question = set_user_question_like(question, self.request)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["question"] = self.question
-        context["answers"] = setUserAnswerLikes(Answer.objects.answers_by_question_id(self.question.pk), self.request)
+        context["answers"] = set_user_answer_likes(Answer.objects.answers_by_question_id(self.question.pk), self.request)
         token = generate_token(self.request.user.pk)
         context["centrifugo_token"] = token
         context["centrifugo_url"] = CENTRIFUGO_URL
@@ -110,11 +109,12 @@ class DetailView(FormView, BaseView):
                 "id": answer.id,
                 "content": answer.content,
                 "author": {
-                    "avatar": self.request.user.profile.avatar
+                    "avatar": self.request.user.profile.get_avatar()
                 },
                 "is_liked": 0,
                 "likes": 0, 
-                "is_correct": False
+                "is_correct": False, 
+                "question_author_id": self.question.author.id
             }
             publish_to_centrifugo(f"channel_{self.question.id}", {"message": serialized_answer})
             return HttpResponseRedirect(reverse('questions:question_detail', kwargs={'pk': self.question.pk}))
@@ -130,7 +130,7 @@ class QuestionsTagView(BaseView):
             raise Http404("Tag doesn't exist")
         questions = Question.objects.tag(tag.pk)
         page_obj = paginate(questions, self.request)
-        page_obj = setUserQuestionLikes(page_obj, self.request)
+        page_obj = set_user_question_likes(page_obj, self.request)
         context["page_obj"] = page_obj
         context["tag"] = tag_name
         return context
@@ -157,7 +157,7 @@ class LikeQuestionView(APIView):
             raise Http404()
         question_id = kwargs["id"]
         question = Question.objects.filter(id=question_id).first()
-        type = int(request.data.get("type"))
+        type = str_to_int(request.data.get("type"), 1)
         if question is None:
             raise Http404("Question doesn't exist")
         if type is None:
@@ -174,13 +174,14 @@ class LikeAnswerView(APIView):
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             raise Http404()
-        answer_id = kwargs["id"]
+        answer_id = kwargs["id"]  
+        type = str_to_int(request.data.get("type"), 1)
         answer = Answer.objects.filter(id=answer_id).first()
-        type = int(request.data.get("type"))
         if answer is None:
             raise Http404("Answer doesn't exist")
         if type is None:
             raise Http404("Type is not defined")
+        
         type = AnswerLikes.objects.leave_like(user=request.user, answer=answer, type=type)
         active_likes = AnswerLikes.objects.filter(answer=answer, is_active=True)
         answer.likes = active_likes.filter(type=1).count() - active_likes.filter(type=0).count()

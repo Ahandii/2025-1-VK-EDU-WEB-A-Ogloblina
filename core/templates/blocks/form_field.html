@@ -5,7 +5,7 @@
         <label class="enter-label" for="id_{{ field.name }}">
             <span class="input-header">{{ field.label }}{% if field|is_required %}<span class="field__star">*</span>{% endif %}</span>
             <div class="input-wrapper">
-                <input type="{{ field.typefield.field.widget.input_type }}" name="{{ field.name }}"
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}"
                 id="id_{{ field.name }}"
                 type="{{ field.field.widget.input_type }}"
                 name="{{ field.name }}"
@@ -15,13 +15,13 @@
                 {% if field|is_disabled %} disabled {% endif %}>
             </div>
         </label>
-    {% else %}
+    {% elif field.field.widget.input_type == "file" %}
         <div class="enter-label">
             <span class="input-header">{{ field.label }}</span>
             <div class="file-upload">
                 <img src="{{ avatar }}" alt="avatar" class="user-avatar">
 
-                <input type="file" id="avatar-input" name="avatar">
+                <input type="file" id="avatar-input" name="avatar" accept=".jpg, .png">
                 <label for="avatar-input" class="file-upload-button">Choose file</label>
                 <span class="file-name">No file chosen</span>
             </div>
