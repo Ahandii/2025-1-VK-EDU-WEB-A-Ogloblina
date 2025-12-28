@@ -5,3 +5,4 @@ prod.conf
 __pycache__/
 media/
 nginx_cache/
+staticfiles/
