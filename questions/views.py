@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, FormView
-from questions.models import Question, Answer, Tag, User, QuestionLikes, AnswerLikes
+from questions.models import Question, Answer, Tag, QuestionLike, AnswerLike
 from django.http import Http404, JsonResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from questions.managers import get_cached_best_members, get_cached_popular_tags, \
@@ -19,6 +19,8 @@ import time
 from cent import Client, PublishRequest
 from utils.string import str_to_int
 import json 
+from rest_framework.permissions import IsAuthenticated 
+from django.db.models import Sum, Case, When, IntegerField
 
 def paginate(objects_list, request, per_page=10):
     page_number = request.GET.get("page", 1)
@@ -96,7 +98,7 @@ def publish_to_centrifugo(channel, data):
     request = PublishRequest(channel=channel, data=data)
     client.publish(request)
 
-class DetailView(FormView, BaseView):
+class QuestionDetailView(FormView, BaseView):
     form_class = AnswerForm
     template_name = "question.html"
     def dispatch(self, request, *args, **kwargs):
@@ -111,7 +113,11 @@ class DetailView(FormView, BaseView):
         context = super().get_context_data(**kwargs)
         context["question"] = self.question
         context["answers"] = set_user_answer_likes(Answer.objects.answers_by_question_id(self.question.pk), self.request)
-        token = generate_token(self.request.user.pk)
+        if self.request.user.is_authenticated:
+            token = generate_token(self.request.user.pk)
+        else:
+            token = "UNAUTH"
+        
         context["centrifugo_token"] = token
         context["centrifugo_url"] = CENTRIFUGO_URL
         context["centrifugo_channel"] = f"channel_{self.question.id}" 
@@ -125,12 +131,12 @@ class DetailView(FormView, BaseView):
             answer = form.save()
             self.question.answers_cnt += 1
             self.question.save()
-
+            profile = getattr(self.request.user, "profile", None)
             serialized_answer = {
                 "id": answer.id,
                 "content": answer.content,
                 "author": {
-                    "avatar": self.request.user.profile.get_avatar()
+                    "avatar": profile.get_avatar() if profile else "/static/avatars/no-avatar.jpeg" 
                 },
                 "is_liked": 0,
                 "likes": 0, 
@@ -172,42 +178,65 @@ class QuestionAskView(LoginRequiredMixin, FormView, BaseView):
         
 class LikeQuestionView(APIView):
     http_method_names = [ 'post' ]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            raise Http404()
         question_id = kwargs["id"]
         question = Question.objects.filter(id=question_id).first()
-        type = str_to_int(request.data.get("type"), 1)
+
         if question is None:
-            raise Http404("Question doesn't exist")
-        if type is None:
-            raise Http404("Type is not defined")
-        type = QuestionLikes.objects.leave_like(user=request.user, question=question, type=type)
-        active_likes = QuestionLikes.objects.filter(question=question, is_active=True)
-        question.likes = active_likes.filter(type=1).count() - active_likes.filter(type=0).count()
+            return JsonResponse({"error": f"Question with id={question_id} not found"}, status=404)
+        
+        like_type = str_to_int(request.data.get("type"), 1)
+        
+        if like_type is None or like_type not in [0, 1]:
+            return JsonResponse({"error": "Action request.data.get('type') not allowed"}, status=400)
+        
+        like_type = QuestionLike.objects.leave_like(user=request.user, question=question, type=like_type)
+
+        question.likes = QuestionLike.objects.filter(question=question, is_active=True).aggregate(
+            likes_diff=Sum(
+                Case(
+                    When(type=1, then=1),
+                    When(type=0, then=-1),
+                    default=0,
+                    output_field=IntegerField()
+                )
+            )
+        )['likes_diff'] or 0
+
         question.save(update_fields=["likes"])
-        return JsonResponse({"status": "ok", "new_likes_count": question.likes, "type": type}, status = 200)
+        return JsonResponse({"status": "ok", "new_likes_count": question.likes, "type": like_type}, status = 200)
     
 class LikeAnswerView(APIView):
     http_method_names = [ 'post' ]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            raise Http404()
         answer_id = kwargs["id"]  
-        type = str_to_int(request.data.get("type"), 1)
+        like_type = str_to_int(request.data.get("type"), 1)
         answer = Answer.objects.filter(id=answer_id).first()
         if answer is None:
-            raise Http404("Answer doesn't exist")
-        if type is None:
-            raise Http404("Type is not defined")
+            return JsonResponse({"error": f"Answer with id={answer_id} not found"}, status=404)
         
-        type = AnswerLikes.objects.leave_like(user=request.user, answer=answer, type=type)
-        active_likes = AnswerLikes.objects.filter(answer=answer, is_active=True)
-        answer.likes = active_likes.filter(type=1).count() - active_likes.filter(type=0).count()
+        if like_type is None or like_type not in [0, 1]:
+            return JsonResponse({"error": "Action request.data.get('type') not allowed"}, status=400)
+        
+        like_type = AnswerLike.objects.leave_like(user=request.user, answer=answer, type=like_type)
+
+        answer.likes = AnswerLike.objects.filter(answer=answer, is_active=True).aggregate(
+            likes_diff=Sum(
+                Case(
+                    When(type=1, then=1),
+                    When(type=0, then=-1),
+                    default=0,
+                    output_field=IntegerField()
+                )
+            )
+        )['likes_diff'] or 0
+
         answer.save(update_fields=["likes"])
-        return JsonResponse({"status": "ok", "new_likes_count": answer.likes, "type": type }, status = 200)
+        return JsonResponse({"status": "ok", "new_likes_count": answer.likes, "type": like_type }, status = 200)
     
 class CheckAnswerView(APIView):
     http_method_names = [ 'post' ]

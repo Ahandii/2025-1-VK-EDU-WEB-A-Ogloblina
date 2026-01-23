@@ -2,7 +2,8 @@ from django.db import models, IntegrityError
 from django.db.models import Count
 from django.core.cache import cache
 from django.contrib.postgres.search import TrigramSimilarity
-from django.contrib.postgres.search import SearchVector, TrigramSimilarity
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity, SearchRank, SearchQuery
+from django.db.models import Q
 
 def get_cached_popular_tags():
     tags = cache.get("TAGS")
@@ -16,28 +17,31 @@ def search_by_query(query):
     from questions.models import Question
     if (len(query) < 3):
         return Question.objects.hot()[:5]
+    
+    search_query = SearchQuery(query)
+
     questions = Question.objects.annotate(
-        search=SearchVector('title', 'content'),
-        similarity=TrigramSimilarity('title', query)
-    ).filter(search=query).order_by('-similarity')[:5]
+        rank=SearchRank(
+            SearchVector("title", weight="A") + SearchVector("content", weight="B"), 
+            search_query
+        ),
+        similarity=TrigramSimilarity('title', query) + TrigramSimilarity('content', query)
+    ).filter(Q(rank__gte=0.1) | Q(similarity__gte=0.1)).order_by('-similarity', '-rank')[:5]
     return questions
 
 class QuestionManager(models.Manager):
     def active(self):
         return self.filter(is_active=1)\
-            .select_related("author")\
             .select_related("author__profile") \
             .prefetch_related("tags") \
             .order_by("-created_at")
     def hot(self):
         return self.filter(is_active=True) \
-            .select_related("author") \
             .select_related("author__profile") \
             .prefetch_related("tags") \
             .order_by("-answers_cnt", "-created_at")
     def tag(self, tag_id):
         return self.filter(tags__id=tag_id)\
-            .select_related("author")\
             .select_related("author__profile") \
             .prefetch_related("tags") \
             .order_by("-created_at")
@@ -47,7 +51,6 @@ class AnswerManager(models.Manager):
         from questions.models import Answer
         return Answer.objects.filter(question_id=id)\
             .order_by("created_at")\
-            .select_related("author")\
             .select_related("author__profile") \
 
 class TagManager(models.Manager):
@@ -58,7 +61,7 @@ class TagManager(models.Manager):
     
 class QuestionLikeManager(models.Manager):
     def leave_like(self, question, user, type):
-        from questions.models import QuestionLikes
+        from questions.models import QuestionLike
         query = {"question": question, "user": user}
         user_like = self.filter(**query).first()
         if user_like is not None:
@@ -72,7 +75,7 @@ class QuestionLikeManager(models.Manager):
                 user_like.save(update_fields=["is_active"])
                 return (1 if user_like.type else -1) if user_like.is_active else 0
         try:
-            user_like = QuestionLikes.objects.create(**query, type=type)
+            user_like = QuestionLike.objects.create(**query, type=type)
         except IntegrityError as db_error:
             print(db_error)
             user_like = self.filter(**query).first()
@@ -89,7 +92,7 @@ class QuestionLikeManager(models.Manager):
     
 class AnswerLikeManager(models.Manager):
     def leave_like(self, answer, user, type):
-        from questions.models import AnswerLikes
+        from questions.models import AnswerLike
         query = {"answer": answer, "user": user}
         user_like = self.filter(**query).first()
         if user_like is not None:
@@ -103,7 +106,7 @@ class AnswerLikeManager(models.Manager):
                 user_like.save(update_fields=["is_active"])
                 return (1 if user_like.type else -1) if user_like.is_active else 0
         try:
-            user_like = AnswerLikes.objects.create(**query, type=type)
+            user_like = AnswerLike.objects.create(**query, type=type)
         except IntegrityError as db_error:
             print(db_error)
             user_like = self.filter(**query).first()
@@ -134,8 +137,8 @@ def set_user_question_likes(page_obj, request):
             obj.is_liked = 0
         return page_obj
     question_ids = [obj.id for obj in page_obj.object_list]
-    from questions.models import QuestionLikes
-    user_likes = QuestionLikes.objects.filter(
+    from questions.models import QuestionLike
+    user_likes = QuestionLike.objects.filter(
         user=request.user,
         question_id__in=question_ids,
         is_active=True  
@@ -152,8 +155,8 @@ def set_user_answer_likes(object_list, request):
             obj.is_liked = 0
         return object_list
     answer_ids = [obj.id for obj in object_list]
-    from questions.models import AnswerLikes
-    user_likes = AnswerLikes.objects.filter(
+    from questions.models import AnswerLike
+    user_likes = AnswerLike.objects.filter(
         user=request.user,
         answer_id__in=answer_ids,
         is_active=True  
@@ -165,11 +168,11 @@ def set_user_answer_likes(object_list, request):
     return object_list
 
 def set_user_question_like(question, request):
-    from questions.models import QuestionLikes
+    from questions.models import QuestionLike
     if not request.user.is_authenticated:
         question.is_liked = 0
         return question
-    user_like = QuestionLikes.objects.filter(user=request.user, question=question, is_active=True).first()
+    user_like = QuestionLike.objects.filter(user=request.user, question=question, is_active=True).first()
     if user_like:
         if user_like.type == 1:
             question.is_liked = 1

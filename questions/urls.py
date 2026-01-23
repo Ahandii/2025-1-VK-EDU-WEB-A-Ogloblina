@@ -1,5 +1,5 @@
 from django.urls import re_path
-from questions.views import IndexView, DetailView, QuestionAskView, QuestionsTagView, \
+from questions.views import IndexView, QuestionDetailView, QuestionAskView, QuestionsTagView, \
     QuestionsHotView, LikeQuestionView, LikeAnswerView, CheckAnswerView, \
     search_view
 
@@ -9,7 +9,7 @@ urlpatterns = [
     re_path(r'^answers/(?P<id>\d+)/check/', CheckAnswerView.as_view(), name="checkanswer"),
     re_path(r'^answers/(?P<id>\d+)/like/', LikeAnswerView.as_view(), name="answerlike"),
     re_path(r'^hot/', QuestionsHotView.as_view(), name="questions_hot"),
-    re_path(r'^(?P<pk>\d+)/detail/', DetailView.as_view(), name="question_detail"),
+    re_path(r'^(?P<pk>\d+)/detail/', QuestionDetailView.as_view(), name="question_detail"),
     re_path(r'^tag/(?P<pk>\w+)/', QuestionsTagView.as_view(), name="questions_tag"),
     re_path(r'^ask/', QuestionAskView.as_view(), name="question_ask"),
     re_path(r"^search", search_view, name="search"),

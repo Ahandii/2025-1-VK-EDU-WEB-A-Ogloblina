@@ -1,7 +1,10 @@
 # Crontab настройки для кэша
 
+```
 */30 * * * * /home/alex/Education/VK/WEB/QuestionProject/.venv/bin/python /home/alex/Education/VK/WEB/QuestionProject/manage.py cache_members
+
 10,40 * * * * /home/alex/Education/VK/WEB/QuestionProject/.venv/bin/python /home/alex/Education/VK/WEB/QuestionProject/manage.py cache_tags
+```
 
 # Измерения:
 

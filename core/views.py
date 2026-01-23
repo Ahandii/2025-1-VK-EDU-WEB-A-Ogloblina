@@ -84,11 +84,11 @@ class SettingsView(LoginRequiredMixin, FormView, BaseView):
         kwargs = super().get_form_kwargs()
         kwargs['instance'] = self.request.user
         return kwargs
+    
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
-    def success_url(self):
-        return reverse("core:settings")
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = Profile.objects.filter(user__id=self.request.user.pk).first()

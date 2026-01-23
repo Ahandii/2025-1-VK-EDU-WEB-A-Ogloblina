@@ -18,4 +18,4 @@ class Profile(models.Model):
             return self.avatar.url
         if self.original_avatar:
             return self.original_avatar.url
-        return "/media/avatars/no-avatar.jpeg" 
+        return "/static/avatars/no-avatar.jpeg" 

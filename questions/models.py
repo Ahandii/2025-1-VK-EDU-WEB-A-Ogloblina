@@ -59,7 +59,7 @@ class Answer(models.Model):
     
     objects = AnswerManager()
     
-class QuestionLikes(models.Model):
+class QuestionLike(models.Model):
     class Meta:
         verbose_name = "Лайк к вопросу"
         verbose_name_plural = "Лайки к вопросам"
@@ -70,7 +70,7 @@ class QuestionLikes(models.Model):
     is_active = models.BooleanField(default=True)
     objects = QuestionLikeManager()
 
-class AnswerLikes(models.Model):
+class AnswerLike(models.Model):
     class Meta:
         verbose_name = "Лайк к ответу"
         verbose_name_plural = "Лайки к ответам"

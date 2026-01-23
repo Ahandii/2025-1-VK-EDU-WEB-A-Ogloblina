@@ -96,7 +96,7 @@ sub
     
     const newAnswer = answerTemplate.cloneNode(true);
     
-    newAnswer.querySelector('.avatar').src = author?.avatar || "/media/avatars/no-avatar.jpeg";
+    newAnswer.querySelector('.avatar').src = author.avatar;
     newAnswer.querySelector('.description').textContent = content;
     
     const elementsWithId = newAnswer.querySelectorAll('[data-answer-id="-1"]');
