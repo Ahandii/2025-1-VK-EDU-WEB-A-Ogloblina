@@ -156,7 +156,7 @@ class QuestionsTagView(BaseView):
         context["tag"] = tag_name
         return context
 
-class QuestionAskView(LoginRequiredMixin, FormView):
+class QuestionAskView(LoginRequiredMixin, FormView, BaseView):
     http_method_names = ['get', 'post']
     template_name = "ask.html"
     form_class = QuestionForm

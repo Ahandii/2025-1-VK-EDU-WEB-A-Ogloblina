@@ -18,9 +18,10 @@ header {
     align-items: center;
     padding: 4px;
     gap: 16px;
+    height: 45px;
 }
  
-.button.ask-button {
+.ask-button {
     border-radius: 10px;
     color: #ffffff;
     background-color: #4CAF50;

@@ -51,6 +51,7 @@
                             </a>
                     </div>
                 </div>
+                <button onclick="window.location.href='{% url "questions:question_ask" %}'" class="ask-button">Ask</button>
             {% if user.is_authenticated %}
                 <div class="profile-wrapper">
                 <img src="{{ avatar }}" alt="avatar" class="avatar">
