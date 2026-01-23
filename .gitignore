@@ -6,3 +6,4 @@ __pycache__/
 media/
 nginx_cache/
 staticfiles/
+tmp/
