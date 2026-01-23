@@ -7,3 +7,4 @@ media/
 nginx_cache/
 staticfiles/
 tmp/
+var/
