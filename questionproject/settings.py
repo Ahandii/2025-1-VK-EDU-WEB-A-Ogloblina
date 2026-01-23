@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_rename_app"
+    "django_rename_app",
+    "django.contrib.postgres"
 ]
 
 INSTALLED_APPS += [
@@ -141,3 +142,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
 CENTRIFUGO_HMAC_SECRET = "secret"
 CENTRIFUGO_URL = "127.0.0.1:8010"
 CENTRIFUGO_API_KEY = "secret"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/home/alex/Education/VK/WEB/QuestionProject/tmp/",
+    }
+}

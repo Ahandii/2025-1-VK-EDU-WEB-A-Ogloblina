@@ -1,13 +1,26 @@
 from django.db import models, IntegrityError
 from django.db.models import Count
-from django.contrib.auth.models import User
+from django.core.cache import cache
+from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.postgres.search import SearchVector, TrigramSimilarity
 
-def get_best_members(limit=5):
-    return User.objects.annotate(
-        answers_count=Count('answer',
-            filter=models.Q(answer__is_active=True, answer__is_correct=True)))\
-            .filter(answers_count__gt=0)\
-            .order_by('-answers_count')[:limit]
+def get_cached_popular_tags():
+    tags = cache.get("TAGS")
+    return tags
+
+def get_cached_best_members(limit=5):
+    best_members = cache.get("MEMBERS")
+    return best_members
+
+def search_by_query(query):
+    from questions.models import Question
+    if (len(query) < 3):
+        return Question.objects.hot()[:5]
+    questions = Question.objects.annotate(
+        search=SearchVector('title', 'content'),
+        similarity=TrigramSimilarity('title', query)
+    ).filter(search=query).order_by('-similarity')[:5]
+    return questions
 
 class QuestionManager(models.Manager):
     def active(self):

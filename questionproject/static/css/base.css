@@ -16,12 +16,11 @@ button:active {
 header {
     display: flex;
     align-items: center;
-    height: 50px;
     padding: 4px;
     gap: 16px;
 }
  
-.search-item>button.ask-button {
+.button.ask-button {
     border-radius: 10px;
     color: #ffffff;
     background-color: #4CAF50;
@@ -79,6 +78,8 @@ input:focus {
     height: 100%;
     box-sizing: border-box;
     width: 100%;
+    position: relative;
+    max-width: 550px;
 }
 
 main a:hover {
@@ -110,7 +111,6 @@ header > a:active {
 
 .search-line {
     width: 100%;
-    max-width: 550px;
     height: 100%;
     border: solid 1px #ccc;
     border-radius: 10px;
@@ -194,4 +194,60 @@ section.content {
 
 .label {
     width: 100%;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-items {
+    position: absolute;
+    top: 30px;
+}
+
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 0 0 8px 8px;
+    border-top: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    /*display: none;*/ 
+}
+
+.search-result-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: block;
+    width: 100%;
+    flex-direction: row;
+    white-space: nowrap;  
+    overflow: hidden;     
+    text-overflow: ellipsis;
+}
+
+
+.search-result-item:hover {
+    background-color: #f8f9fa;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-item-title {
+    font-weight: 600;
+}
+
+.template {
+    display: None;
 }

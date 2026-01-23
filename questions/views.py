@@ -2,7 +2,8 @@ from django.views.generic import TemplateView, FormView
 from questions.models import Question, Answer, Tag, User, QuestionLikes, AnswerLikes
 from django.http import Http404, JsonResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from questions.managers import get_best_members, set_user_question_likes, set_user_answer_likes, set_user_question_like
+from questions.managers import get_cached_best_members, get_cached_popular_tags, \
+    set_user_question_likes, set_user_answer_likes, set_user_question_like, search_by_query
 from django.shortcuts import get_object_or_404, redirect
 from questions.forms import QuestionForm, AnswerForm
 from django.http import HttpResponseRedirect
@@ -17,6 +18,7 @@ import jwt
 import time 
 from cent import Client, PublishRequest
 from utils.string import str_to_int
+import json 
 
 def paginate(objects_list, request, per_page=10):
     page_number = request.GET.get("page", 1)
@@ -27,6 +29,25 @@ def paginate(objects_list, request, per_page=10):
         page_obj = paginator.get_page(1)
     return page_obj
     
+def search_view(request):
+    query = request.GET.get('q')
+    if query and query.strip(): 
+        questions = search_by_query(query.strip()) 
+        quests = []
+        for q in questions:
+            quests.append({
+                "id": q.id, 
+                "title": q.title, 
+                "content": q.content
+            })
+        return JsonResponse({"status": "ok", "questions": quests}, status=200)
+    
+    return JsonResponse({
+        "status": "ok", 
+        "questions": [],
+        "message": "Введите поисковый запрос"
+    }, status=200)
+
 def generate_token(user_id):
     token = jwt.encode({
         "sub": str(user_id),
@@ -37,8 +58,8 @@ def generate_token(user_id):
 class BaseView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        popular_tags = Tag.objects.popular_tags()
-        best_members = get_best_members(5) 
+        popular_tags = get_cached_popular_tags()
+        best_members = get_cached_best_members(5) 
 
         profile = Profile.objects.filter(user__id=self.request.user.pk).first()
         if profile:

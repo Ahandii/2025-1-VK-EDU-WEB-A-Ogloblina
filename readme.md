@@ -1,3 +1,8 @@
+# Crontab настройки для кэша
+
+*/30 * * * * /home/alex/Education/VK/WEB/QuestionProject/.venv/bin/python /home/alex/Education/VK/WEB/QuestionProject/manage.py cache_members
+10,40 * * * * /home/alex/Education/VK/WEB/QuestionProject/.venv/bin/python /home/alex/Education/VK/WEB/QuestionProject/manage.py cache_tags
+
 # Измерения:
 
 nginx.conf:
@@ -13,15 +18,10 @@ http {
         proxy_cache_path /home/alex/Education/VK/WEB/QuestionProject/nginx_cache levels=1  keys_zone=question_zone:10m inactive=24h max_size=50m;
         sendfile on;
 ```
-<<<<<<< HEAD
-# Отдача статического документа напрямую через nginx
-
-=======
 
 # Отдача статического документа напрямую через nginx
 
 ```
->>>>>>> hw6
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/static/admin/css/base.css
 
 Server Software:        nginx/1.18.0
@@ -59,17 +59,11 @@ Percentage of the requests served within a certain time (ms)
   98%     23
   99%     23
  100%     24 (longest request)
-<<<<<<< HEAD
-
-# Отдача статического документа напрямую через gunicorn
-
-=======
 ```
 
 # Отдача статического документа напрямую через gunicorn
 
 ```
->>>>>>> hw6
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://127.0.0.1:8000/static/admin/css/base.css
 
 Server Software:        gunicorn
@@ -108,17 +102,11 @@ Percentage of the requests served within a certain time (ms)
   98%    166
   99%    170
  100%    193 (longest request)
-<<<<<<< HEAD
-
-# Отдача динамического документа напрямую через gunicorn
-
-=======
 ```
 
 # Отдача динамического документа напрямую через gunicorn
 
 ```
->>>>>>> hw6
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://127.0.0.1:8000/questions/
 
 Server Software:        gunicorn
@@ -156,17 +144,11 @@ Percentage of the requests served within a certain time (ms)
   98%   5705
   99%   5720
  100%   5734 (longest request)
-<<<<<<< HEAD
-
-# Отдача динамического документа через проксирование запроса с nginx на gunicorn
-
-=======
 ```
 
 # Отдача динамического документа через проксирование запроса с nginx на gunicorn
 
 ```
->>>>>>> hw6
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/questions/ 
 
 Server Software:        nginx/1.18.0
@@ -206,19 +188,13 @@ Percentage of the requests served within a certain time (ms)
   98%   5732
   99%   5825
  100%   5844 (longest request)
-<<<<<<< HEAD
-=======
 ```
->>>>>>> hw6
 
 # Отдача динамического документа через проксирование запроса с nginx на gunicorn, при кэшировние ответа на nginx (proxy cache)
 
 До этого были проведены измерения с кэшом. Теперь результаты для проксирования nginx на gunicorn без кэша.
 
-<<<<<<< HEAD
-=======
 ```
->>>>>>> hw6
 (.venv) alex@alex-Redmi-Book-14-2024:~/Education/VK/WEB/QuestionProject$ ab -c 200 -n 2000 http://ogloblina.localhost/questions/ 
 
 Server Software:        nginx/1.18.0
@@ -256,10 +232,4 @@ Percentage of the requests served within a certain time (ms)
   98%   6129
   99%   6139
  100%   6180 (longest request)
-<<<<<<< HEAD
-
-
-
-=======
 ```
->>>>>>> hw6

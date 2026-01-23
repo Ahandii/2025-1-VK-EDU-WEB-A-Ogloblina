@@ -14,5 +14,3 @@ from django.conf.urls.static import static
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-    print(f"DEBUG: Media URL enabled: {settings.MEDIA_URL}")
-    print(f"DEBUG: Media ROOT: {settings.MEDIA_ROOT}")
