@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from questions.models import Tag, Question, Answer, QuestionLikes, AnswerLikes
 from random import choices, randint, sample 
 from string import ascii_lowercase
+from core.models import Profile
 
 def form_users(ratio):
     users = []
@@ -146,11 +147,20 @@ class Command(BaseCommand):
 
         users = User.objects.bulk_create(form_users(ratio), batch_size=batch_size)
         print(f"Создано {len(users)} пользователей")
+        
+        users = list(User.objects.all())
+        profiles = []
+        for user in users:
+            if user.is_staff:
+                continue
+            profile = Profile(user=user)
+            profiles.append(profile)
+        Profile.objects.bulk_create(profiles, batch_size=batch_size)
+        print(f"Создано {len(profiles)} пустых профилей")
 
         tags = Tag.objects.bulk_create(form_tags(ratio), batch_size=batch_size)
         print(f"Создано {len(tags)} тегов")
 
-        users = list(User.objects.all())
         questions = form_questions(users, tags, ratio)
         created_questions = Question.objects.bulk_create(questions, batch_size=batch_size)
         print(f"Создано {len(created_questions)} вопросов")

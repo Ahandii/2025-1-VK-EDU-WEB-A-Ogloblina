@@ -4,6 +4,17 @@ from django.urls import reverse
 from django.contrib.auth.password_validation import validate_password
 from core.models import Profile 
 from django.core.validators import FileExtensionValidator
+from django.urls import reverse, reverse_lazy
+
+def validate_image(img, max_upload_size):
+    img_file = img.file
+    
+    if img_file.size > max_upload_size:
+        size_mb = max_upload_size / (1024)
+        err_msg = f'Размер файла не должен превышать {size_mb:.1f} KB'
+        raise forms.ValidationError(err_msg)
+    
+    return img
 
 class LoginForm(forms.Form):
     login = forms.CharField(label = "Login", max_length=255, required=True)
@@ -45,20 +56,23 @@ class SignupForm(forms.ModelForm):
                                    
         return cleaned_data
     
+    #def clean_avatar(self):
+      #  avatar = self.cleaned_data.get('avatar')
+      #  img = validate_image(avatar, 10 * 1024)
+    #  return img 
+    
     def save(self, commit=True):
         user = super().save(commit = False)
         user.set_password(self.cleaned_data.get('password'))
-        
+        profile = Profile(user=user, avatar=self.cleaned_data['avatar'])
         if commit:
             user = super().save()
-            profile = Profile.objects.create(user=user, avatar=self.cleaned_data['avatar'])
             profile.save()
-
         return user
     
 class ProfileForm(forms.ModelForm):
     avatar = forms.ImageField(label = "Avatar", validators=[FileExtensionValidator(allowed_extensions=['jpg', 'png'])], required=False)
-
+    success_url = reverse_lazy("core:settings")
     class Meta:
         model = User
         fields = [ "username", "email" ]
@@ -69,10 +83,12 @@ class ProfileForm(forms.ModelForm):
 
         self.fields["username"].label = "Login"
         self.fields["username"].required = True
-    
-    def success_url(self):
-        return reverse("core:settings")
 
+    #def clean_avatar(self):
+       # avatar = self.cleaned_data.get('avatar')
+      #  img = validate_image(avatar, 10 * 1024)
+     #   return img 
+    
     def clean(self):
         cleaned_data = super().clean()
 
@@ -92,11 +108,10 @@ class ProfileForm(forms.ModelForm):
         user = super().save(commit = False)
         profile = Profile.objects.filter(user=user).first()
         if profile:
-            if not profile.avatar:
-                profile.avatar = self.cleaned_data['avatar']
+            profile.avatar = self.cleaned_data['avatar']
         else:
-            profile = Profile.objects.create(user=user, avatar=self.cleaned_data['avatar'])
+            profile = Profile(user=user, avatar=self.cleaned_data['avatar'])
         if commit:
             profile.save()
-            super().save()
+            user = user.save()
         return user

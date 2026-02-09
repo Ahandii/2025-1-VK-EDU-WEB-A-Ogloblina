@@ -1,5 +1,5 @@
 from django.contrib import admin
-from questions.models import Question, Answer, QuestionLikes, AnswerLikes, Tag
+from questions.models import Question, Answer, QuestionLike, AnswerLike, Tag
 from core.models import Profile 
 
 @admin.register(Profile)
@@ -16,11 +16,11 @@ class QuestionAdmin(admin.ModelAdmin):
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ["author", "likes", "dislikes", "is_active"]
 
-@admin.register(AnswerLikes)
+@admin.register(AnswerLike)
 class AnswerLikesAdmin(admin.ModelAdmin):
     ...
 
-@admin.register(QuestionLikes)
+@admin.register(QuestionLike)
 class QuestionLikesAdmin(admin.ModelAdmin):
     ...
 

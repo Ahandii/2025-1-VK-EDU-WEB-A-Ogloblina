@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ogloblina.localhost', 'q.localhost', 'questions.localhost', '127.0.0.1', '0.0.0.0', 'localhost']
 
 PROJECT_NAME = "questionproject"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,6 +14,7 @@ config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read(os.path.join(BASE_DIR, PROJECT_NAME, 'prod.conf'))
 
 DEBUG = True
+
 SECRET_KEY = config.get("secret", "SECRET_KEY", fallback="!secret_key!")
 
 # Application definition
@@ -25,7 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_rename_app"
+    "django_rename_app",
+    "django.contrib.postgres"
 ]
 
 INSTALLED_APPS += [
@@ -48,7 +50,7 @@ LOGIN_URL = "core:login"
 ROOT_URLCONF = 'questionproject.urls'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 TEMPLATES = [
     {
@@ -124,6 +126,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "questionproject/static/"),
     os.path.join(BASE_DIR, "questions/static/"),
@@ -131,4 +134,18 @@ STATICFILES_DIRS = [
     #'static/',
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')
+
+CENTRIFUGO_HMAC_SECRET = "secret"
+CENTRIFUGO_URL = "127.0.0.1:8010"
+CENTRIFUGO_API_KEY = "secret"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/home/alex/Education/VK/WEB/QuestionProject/tmp/",
+    }
+}

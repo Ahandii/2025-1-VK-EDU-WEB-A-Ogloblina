@@ -23,7 +23,7 @@
     </section>    
     
     <section class="user-answer">
-        <form method="post">
+        <form method="post" id="answer-form">
             {% csrf_token %}
             {% for field in form %}
                 {% include 'blocks/question_form_field.html' %}
@@ -32,6 +32,38 @@
         </form>
     </section>
 </main>
+
+{% load static %}
+
+<div class="answer-item template">
+    <div class="answer__likes-and-avatar">
+        <img alt="avatar" class="avatar">
+        <div class="likes">
+            <button class="btn-like answer" data-like-type="1" data-answer-id="-1">▲</button>
+            <span class="counter" data-answer-id="-1">0</span>
+            <button class="btn-like answer" data-like-type="0" data-answer-id="-1">▼</button>            
+        </div>
+    </div>
+    <div class="answer__content">
+        <div class="description"></div>
+        <div class="answer__footer">
+            <label class="answer_checkbox__footer">
+                <input class="checkbox" data-answer-id="-1" type="checkbox" disabled>
+                <span>Correct!</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+    <script> 
+        userId = {{user.id}};
+        const CENTRIFUGO_URL = "{{ centrifugo_url }}";
+        const CENTRIFUGO_TOKEN = "{{ centrifugo_token }}";
+        const CENTRIFUGO_CHANNEL = "{{ centrifugo_channel }}";
+    </script>
+    <script src="{%static "questions/js/centrifuge.js"%}"></script>
+{% endblock %}
 
 {% include "aside.html" %}  
 
